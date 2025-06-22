@@ -34,12 +34,50 @@ app.use((req, res, next) => {
 app.use(express.urlencoded({ extended: true, limit: '10mb' }));
 app.use(express.json({ limit: '10mb' }));
 
-// Static files with caching
-app.use(express.static('public', {
+// Static files with caching and debugging
+app.use(express.static(path.join(__dirname, 'public'), {
     maxAge: '1d',
     etag: true,
-    lastModified: true
+    lastModified: true,
+    setHeaders: (res, path) => {
+        console.log('Serving static file:', path);
+        res.setHeader('Cache-Control', 'public, max-age=86400');
+    }
 }));
+
+// Additional static file route for debugging
+app.get('/css/:filename', (req, res, next) => {
+    const filePath = path.join(__dirname, 'public', 'css', req.params.filename);
+    console.log('CSS request for:', req.params.filename, 'Path:', filePath);
+    res.sendFile(filePath, (err) => {
+        if (err) {
+            console.error('Error serving CSS file:', err);
+            next();
+        }
+    });
+});
+
+app.get('/js/:filename', (req, res, next) => {
+    const filePath = path.join(__dirname, 'public', 'js', req.params.filename);
+    console.log('JS request for:', req.params.filename, 'Path:', filePath);
+    res.sendFile(filePath, (err) => {
+        if (err) {
+            console.error('Error serving JS file:', err);
+            next();
+        }
+    });
+});
+
+app.get('/images/:filename', (req, res, next) => {
+    const filePath = path.join(__dirname, 'public', 'images', req.params.filename);
+    console.log('Image request for:', req.params.filename, 'Path:', filePath);
+    res.sendFile(filePath, (err) => {
+        if (err) {
+            console.error('Error serving image file:', err);
+            next();
+        }
+    });
+});
 
 // Enhanced session configuration
 app.use(session({
