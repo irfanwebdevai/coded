@@ -425,26 +425,11 @@ app.use((err, req, res, next) => {
     }
 });
 
-// Graceful shutdown handling
-process.on('SIGTERM', () => {
-    console.log('SIGTERM received, shutting down gracefully');
-    server.close(() => {
-        console.log('Process terminated');
-        process.exit(0);
-    });
-});
-
-process.on('SIGINT', () => {
-    console.log('SIGINT received, shutting down gracefully');
-    server.close(() => {
-        console.log('Process terminated');
-        process.exit(0);
-    });
-});
-
 // For Vercel deployment, export the app instead of listening
+let server;
+
 if (process.env.NODE_ENV !== 'production') {
-    const server = app.listen(port, () => {
+    server = app.listen(port, () => {
         console.log(`🚀 Codedx Server running at http://localhost:${port}`);
         console.log(`📊 Environment: ${process.env.NODE_ENV || 'development'}`);
         console.log(`🔐 Authentication system ready!`);
@@ -452,6 +437,31 @@ if (process.env.NODE_ENV !== 'production') {
         console.log(`🔑 Login: http://localhost:${port}/auth/login`);
         console.log(`💾 Database: Connected to MongoDB`);
         console.log(`⚡ Server PID: ${process.pid}`);
+    });
+    
+    // Graceful shutdown handling (only for development)
+    process.on('SIGTERM', () => {
+        console.log('SIGTERM received, shutting down gracefully');
+        if (server) {
+            server.close(() => {
+                console.log('Process terminated');
+                process.exit(0);
+            });
+        } else {
+            process.exit(0);
+        }
+    });
+
+    process.on('SIGINT', () => {
+        console.log('SIGINT received, shutting down gracefully');
+        if (server) {
+            server.close(() => {
+                console.log('Process terminated');
+                process.exit(0);
+            });
+        } else {
+            process.exit(0);
+        }
     });
 } else {
     console.log('🚀 Codedx Platform ready for Vercel deployment');
