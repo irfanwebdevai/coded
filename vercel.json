@@ -1,11 +1,12 @@
 {
   "version": 2,
   "name": "codedx-platform",
-  "functions": {
-    "server.js": {
-      "maxDuration": 30
+  "builds": [
+    {
+      "src": "server.js",
+      "use": "@vercel/node"
     }
-  },
+  ],
   "routes": [
     {
       "src": "/(.*)",
