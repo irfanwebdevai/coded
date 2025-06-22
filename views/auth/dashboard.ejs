@@ -1,0 +1,482 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title><%= title %></title>
+    <link rel="stylesheet" href="/css/style.css">
+    <link rel="stylesheet" href="/css/auth.css">
+    <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&family=VT323:wght@400&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+</head>
+<body>
+    <!-- Header -->
+    <header class="header">
+        <nav class="navbar">
+            <div class="nav-container">
+                <div class="nav-brand">
+                    <span class="brand-icon">🛡️</span>
+                    <a href="/" style="text-decoration: none; color: inherit;">Codedx</a>
+                </div>
+                
+                <div class="nav-menu">
+                    <a href="/courses/python" class="nav-link">🐍 Python Course</a>
+                    <a href="/practice" class="nav-link">⚡ Practice</a>
+                    <a href="/community" class="nav-link">👥 Community</a>
+                </div>
+                
+                <div class="nav-actions">
+                    <div class="user-menu">
+                        <span class="user-avatar">
+                            <% if (user.avatar) { %>
+                                <img src="<%= user.avatar %>" alt="<%= user.name %>" class="avatar-img">
+                            <% } else { %>
+                                <i class="fas fa-user-circle"></i>
+                            <% } %>
+                        </span>
+                        <span class="user-name"><%= user.name %></span>
+                    </div>
+                    <a href="/auth/logout" class="btn-secondary">
+                        <span>🚪</span>
+                        <span>Logout</span>
+                    </a>
+                </div>
+            </div>
+        </nav>
+    </header>
+
+    <!-- Dashboard Section -->
+    <section class="dashboard-section">
+        <div class="container">
+            <div class="dashboard-header">
+                <h1 class="dashboard-title">Welcome back, <%= user.name %>! 🎮</h1>
+                <p class="dashboard-subtitle">Continue your coding adventure</p>
+            </div>
+
+            <!-- Progress Overview -->
+            <% 
+                const progressStats = user.getProgressStats();
+            %>
+            
+            <div class="progress-overview">
+                <div class="level-card">
+                    <div class="level-info">
+                        <h2 class="level-title">Level <%= progressStats.level %></h2>
+                        <div class="xp-info">
+                            <span class="xp-current"><%= progressStats.totalXP %> XP</span>
+                            <span class="xp-next">/ <%= progressStats.level * 100 %> XP</span>
+                        </div>
+                        <div class="xp-bar">
+                            <div class="xp-fill" style="width: <%= (progressStats.totalXP % 100) %>%"></div>
+                        </div>
+                    </div>
+                    <div class="level-icon">🏆</div>
+                </div>
+                
+                <div class="streak-card">
+                    <div class="streak-icon">🔥</div>
+                    <div class="streak-info">
+                        <h3><%= progressStats.streak %> Day Streak</h3>
+                        <p>Keep it up!</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Course Progress -->
+            <div class="course-progress-section">
+                <h2 class="section-title">📚 Your Learning Journey</h2>
+                
+                <div class="course-card python-course">
+                    <div class="course-header">
+                        <div class="course-icon">🐍</div>
+                        <div class="course-info">
+                            <h3>Python Programming</h3>
+                            <p class="course-description">Master Python from basics to advanced</p>
+                        </div>
+                        <div class="course-progress-circle">
+                            <div class="progress-ring">
+                                <svg width="60" height="60">
+                                    <circle cx="30" cy="30" r="25" stroke="#2d1b69" stroke-width="4" fill="none"/>
+                                    <circle cx="30" cy="30" r="25" stroke="#8b5cf6" stroke-width="4" fill="none"
+                                            stroke-dasharray="157" 
+                                            stroke-dashoffset="<%= 157 * (1 - progressStats.progressPercentage / 100) %>"
+                                            stroke-linecap="round"/>
+                                </svg>
+                                <div class="progress-text"><%= progressStats.progressPercentage %>%</div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="course-stats">
+                        <div class="stat">
+                            <span class="stat-label">Completed Lessons</span>
+                            <span class="stat-value"><%= progressStats.completedLessons %>/<%= progressStats.totalLessons %></span>
+                        </div>
+                        <div class="stat">
+                            <span class="stat-label">Course XP</span>
+                            <span class="stat-value"><%= progressStats.courseXP %> XP</span>
+                        </div>
+                        <div class="stat">
+                            <span class="stat-label">Current Chapter</span>
+                            <span class="stat-value">Chapter <%= progressStats.currentChapter %></span>
+                        </div>
+                    </div>
+                    
+                    <div class="course-actions">
+                        <% if (!progressStats.isStarted) { %>
+                            <a href="/courses/python/lesson/1/1" class="btn-primary btn-large">
+                                <span>🚀</span>
+                                <span>Start Learning</span>
+                            </a>
+                        <% } else { %>
+                            <a href="/courses/python/lesson/<%= progressStats.currentChapter %>/<%= progressStats.currentLesson %>" class="btn-primary btn-large">
+                                <span>▶️</span>
+                                <span>Continue Learning</span>
+                            </a>
+                            <a href="/courses/python" class="btn-secondary btn-large">
+                                <span>📋</span>
+                                <span>Course Overview</span>
+                            </a>
+                        <% } %>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Achievements Section -->
+            <% if (progressStats.achievements.length > 0) { %>
+            <div class="achievements-section">
+                <h2 class="section-title">🏅 Achievements</h2>
+                <div class="achievements-grid">
+                    <% progressStats.achievements.forEach(achievement => { %>
+                        <div class="achievement-card">
+                            <div class="achievement-icon"><%= achievement.icon %></div>
+                            <div class="achievement-info">
+                                <h4><%= achievement.name %></h4>
+                                <p><%= achievement.description %></p>
+                                <span class="achievement-xp">+<%= achievement.xpReward %> XP</span>
+                            </div>
+                        </div>
+                    <% }); %>
+                </div>
+            </div>
+            <% } %>
+
+            <!-- Dashboard Stats -->
+            <div class="dashboard-content">
+                <div class="stats-grid">
+                    <div class="stat-card">
+                        <div class="stat-icon">📚</div>
+                        <div class="stat-info">
+                            <h3>Lessons</h3>
+                            <p><%= progressStats.completedLessons %> completed</p>
+                        </div>
+                    </div>
+                    
+                    <div class="stat-card">
+                        <div class="stat-icon">💻</div>
+                        <div class="stat-info">
+                            <h3>Practice</h3>
+                            <p>Code challenges</p>
+                        </div>
+                    </div>
+                    
+                    <div class="stat-card">
+                        <div class="stat-icon">🏆</div>
+                        <div class="stat-info">
+                            <h3>Level <%= progressStats.level %></h3>
+                            <p><%= progressStats.totalXP %> XP earned</p>
+                        </div>
+                    </div>
+                    
+                    <div class="stat-card">
+                        <div class="stat-icon">👥</div>
+                        <div class="stat-info">
+                            <h3>Community</h3>
+                            <p>Connect & learn</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="user-info-section">
+                    <div class="info-card">
+                        <h3>Account Information</h3>
+                        <div class="info-row">
+                            <span class="info-label">Email:</span>
+                            <span class="info-value"><%= user.email %></span>
+                        </div>
+                        <div class="info-row">
+                            <span class="info-label">Provider:</span>
+                            <span class="info-value">
+                                <% if (user.provider === 'google') { %>
+                                    🔍 Google
+                                <% } else if (user.provider === 'github') { %>
+                                    🐙 GitHub
+                                <% } else { %>
+                                    📧 Email
+                                <% } %>
+                            </span>
+                        </div>
+                        <div class="info-row">
+                            <span class="info-label">Member since:</span>
+                            <span class="info-value"><%= new Date(user.createdAt).toLocaleDateString() %></span>
+                        </div>
+                        <div class="info-row">
+                            <span class="info-label">Last login:</span>
+                            <span class="info-value"><%= new Date(user.lastLogin).toLocaleDateString() %></span>
+                        </div>
+                    </div>
+
+                    <div class="quick-actions">
+                        <h3>Quick Actions</h3>
+                        <div class="action-buttons">
+                            <% if (!progressStats.isStarted) { %>
+                                <a href="/courses/python/lesson/1/1" class="btn-primary btn-large">
+                                    <span class="quest-icon">🚀</span>
+                                    <span>Start Python Course</span>
+                                </a>
+                            <% } else { %>
+                                <a href="/courses/python/lesson/<%= progressStats.currentChapter %>/<%= progressStats.currentLesson %>" class="btn-primary btn-large">
+                                    <span class="quest-icon">▶️</span>
+                                    <span>Continue Learning</span>
+                                </a>
+                            <% } %>
+                            <a href="/practice" class="btn-secondary btn-large">
+                                <span class="quest-icon">⚡</span>
+                                <span>Practice Code</span>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <style>
+        .progress-overview {
+            display: grid;
+            grid-template-columns: 2fr 1fr;
+            gap: 2rem;
+            margin-bottom: 3rem;
+        }
+        
+        .level-card {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            border-radius: 1rem;
+            padding: 2rem;
+            color: white;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            box-shadow: 0 8px 32px rgba(0,0,0,0.1);
+        }
+        
+        .level-title {
+            font-family: 'Press Start 2P', monospace;
+            font-size: 1.5rem;
+            margin-bottom: 1rem;
+        }
+        
+        .xp-info {
+            margin-bottom: 1rem;
+            font-family: 'VT323', monospace;
+            font-size: 1.2rem;
+        }
+        
+        .xp-bar {
+            width: 200px;
+            height: 8px;
+            background: rgba(255,255,255,0.3);
+            border-radius: 4px;
+            overflow: hidden;
+        }
+        
+        .xp-fill {
+            height: 100%;
+            background: linear-gradient(90deg, #ffd700, #ffed4e);
+            transition: width 0.3s ease;
+        }
+        
+        .level-icon {
+            font-size: 3rem;
+        }
+        
+        .streak-card {
+            background: linear-gradient(135deg, #ff6b6b 0%, #ee5a24 100%);
+            border-radius: 1rem;
+            padding: 2rem;
+            color: white;
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            box-shadow: 0 8px 32px rgba(0,0,0,0.1);
+        }
+        
+        .streak-icon {
+            font-size: 2.5rem;
+        }
+        
+        .streak-info h3 {
+            font-family: 'Press Start 2P', monospace;
+            font-size: 1.2rem;
+            margin-bottom: 0.5rem;
+        }
+        
+        .course-progress-section {
+            margin-bottom: 3rem;
+        }
+        
+        .section-title {
+            font-family: 'Press Start 2P', monospace;
+            font-size: 1.3rem;
+            margin-bottom: 2rem;
+            color: #2d1b69;
+        }
+        
+        .python-course {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            border-radius: 1rem;
+            padding: 2rem;
+            color: white;
+            box-shadow: 0 8px 32px rgba(0,0,0,0.1);
+        }
+        
+        .course-header {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            margin-bottom: 2rem;
+        }
+        
+        .course-icon {
+            font-size: 3rem;
+        }
+        
+        .course-info h3 {
+            font-family: 'Press Start 2P', monospace;
+            font-size: 1.3rem;
+            margin-bottom: 0.5rem;
+        }
+        
+        .course-description {
+            font-family: 'VT323', monospace;
+            font-size: 1.1rem;
+            opacity: 0.9;
+        }
+        
+        .progress-ring {
+            position: relative;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        .progress-ring svg {
+            transform: rotate(-90deg);
+        }
+        
+        .progress-text {
+            position: absolute;
+            font-family: 'Press Start 2P', monospace;
+            font-size: 0.8rem;
+        }
+        
+        .course-stats {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 2rem;
+            margin-bottom: 2rem;
+            padding: 1rem;
+            background: rgba(255,255,255,0.1);
+            border-radius: 0.5rem;
+        }
+        
+        .stat {
+            text-align: center;
+        }
+        
+        .stat-label {
+            display: block;
+            font-family: 'VT323', monospace;
+            font-size: 0.9rem;
+            opacity: 0.8;
+            margin-bottom: 0.5rem;
+        }
+        
+        .stat-value {
+            display: block;
+            font-family: 'Press Start 2P', monospace;
+            font-size: 1rem;
+        }
+        
+        .course-actions {
+            display: flex;
+            gap: 1rem;
+            flex-wrap: wrap;
+        }
+        
+        .achievements-section {
+            margin-bottom: 3rem;
+        }
+        
+        .achievements-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 1rem;
+        }
+        
+        .achievement-card {
+            background: linear-gradient(135deg, #ffd700 0%, #ffed4e 100%);
+            border-radius: 1rem;
+            padding: 1.5rem;
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            box-shadow: 0 4px 16px rgba(0,0,0,0.1);
+            color: #2d1b69;
+        }
+        
+        .achievement-icon {
+            font-size: 2rem;
+        }
+        
+        .achievement-info h4 {
+            font-family: 'Press Start 2P', monospace;
+            font-size: 0.9rem;
+            margin-bottom: 0.5rem;
+        }
+        
+        .achievement-info p {
+            font-family: 'VT323', monospace;
+            font-size: 1rem;
+            margin-bottom: 0.5rem;
+        }
+        
+        .achievement-xp {
+            font-family: 'Press Start 2P', monospace;
+            font-size: 0.8rem;
+            color: #8b5cf6;
+        }
+        
+        @media (max-width: 768px) {
+            .progress-overview {
+                grid-template-columns: 1fr;
+            }
+            
+            .course-header {
+                flex-direction: column;
+                text-align: center;
+            }
+            
+            .course-stats {
+                grid-template-columns: 1fr;
+            }
+            
+            .course-actions {
+                flex-direction: column;
+            }
+        }
+    </style>
+
+    <script src="/js/script.js"></script>
+</body>
+</html> 

@@ -1,0 +1,887 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title><%= title %></title>
+    <link rel="stylesheet" href="/css/style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+        .code-editor {
+            background: #1e1e1e;
+            border-radius: 8px;
+            font-family: 'Courier New', monospace;
+            font-size: 14px;
+            line-height: 1.5;
+        }
+        .line-numbers {
+            background: #2d2d2d;
+            color: #858585;
+            padding: 12px 8px;
+            text-align: right;
+            border-right: 1px solid #404040;
+            user-select: none;
+            min-width: 40px;
+        }
+        .code-input {
+            background: transparent;
+            border: none;
+            color: #d4d4d4;
+            font-family: 'Courier New', monospace;
+            font-size: 14px;
+            line-height: 1.5;
+            padding: 12px;
+            resize: none;
+            outline: none;
+            width: 100%;
+            min-height: 200px;
+        }
+        .terminal {
+            background: #000;
+            color: #00ff00;
+            font-family: 'Courier New', monospace;
+            font-size: 14px;
+            padding: 16px;
+            border-radius: 8px;
+            min-height: 150px;
+            overflow-y: auto;
+        }
+        .btn {
+            padding: 12px 24px;
+            border-radius: 8px;
+            font-weight: 600;
+            text-decoration: none;
+            display: inline-block;
+            transition: all 0.3s ease;
+            border: none;
+            cursor: pointer;
+            font-size: 14px;
+            font-family: 'Press Start 2P', monospace;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            position: relative;
+            overflow: hidden;
+        }
+        .btn-primary {
+            background: linear-gradient(45deg, #fbbf24, #f59e0b);
+            color: #000;
+            border: 3px solid #d97706;
+            box-shadow: 
+                0 4px 0 #92400e,
+                0 8px 15px rgba(0, 0, 0, 0.3);
+        }
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 
+                0 6px 0 #92400e,
+                0 12px 20px rgba(0, 0, 0, 0.4);
+        }
+        .btn-primary:active {
+            transform: translateY(2px);
+            box-shadow: 
+                0 2px 0 #92400e,
+                0 4px 10px rgba(0, 0, 0, 0.2);
+        }
+        .btn-secondary {
+            background: linear-gradient(45deg, #8b5cf6, #7c3aed);
+            color: #fff;
+            border: 3px solid #6d28d9;
+            box-shadow: 
+                0 4px 0 #4c1d95,
+                0 8px 15px rgba(0, 0, 0, 0.3);
+        }
+        .btn-secondary:hover {
+            transform: translateY(-2px);
+            box-shadow: 
+                0 6px 0 #4c1d95,
+                0 12px 20px rgba(0, 0, 0, 0.4);
+        }
+        .btn-secondary:active {
+            transform: translateY(2px);
+            box-shadow: 
+                0 2px 0 #4c1d95,
+                0 4px 10px rgba(0, 0, 0, 0.2);
+        }
+        .lesson-progress {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 4px;
+            background: #333;
+            z-index: 1000;
+        }
+        .progress-bar {
+            height: 100%;
+            background: #8b5cf6;
+            width: 0%;
+            transition: width 0.3s ease;
+        }
+        .character-sprite {
+            width: 60px;
+            height: 60px;
+            background: #8b5cf6;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 24px;
+            margin-bottom: 16px;
+        }
+        @keyframes slideIn {
+            from { transform: translateX(100%); opacity: 0; }
+            to { transform: translateX(0); opacity: 1; }
+        }
+    </style>
+</head>
+<body style="background: #0f1419; color: #fff; font-family: 'VT323', monospace; margin: 0; padding: 0;">
+    
+    <!-- Header -->
+    <header class="header">
+        <nav class="navbar">
+            <div class="nav-container">
+                <div class="nav-brand">
+                    <span class="brand-icon">🛡️</span>
+                    <a href="/" style="text-decoration: none; color: inherit;">Codedx</a>
+                </div>
+                
+                <ul class="nav-menu">
+                    <li class="nav-item">
+                        <a href="/courses" class="nav-link">Courses</a>
+                    </li>
+                </ul>
+                
+                <div class="nav-actions">
+                    <% if (typeof isAuthenticated !== 'undefined' && isAuthenticated) { %>
+                        <div class="user-menu">
+                            <span class="user-avatar">
+                                <% if (user.avatar) { %>
+                                    <img src="<%= user.avatar %>" alt="<%= user.name %>" class="avatar-img">
+                                <% } else { %>
+                                    <i class="fas fa-user-circle"></i>
+                                <% } %>
+                            </span>
+                            <span class="user-name"><%= user.name %></span>
+                        </div>
+                        <a href="/auth/dashboard" class="btn-secondary">
+                            <span>🎮</span>
+                            <span>Dashboard</span>
+                        </a>
+                        <a href="/auth/logout" class="btn-secondary">
+                            <span>🚪</span>
+                            <span>Logout</span>
+                        </a>
+                    <% } else { %>
+                        <a href="/auth/login" class="btn-settings">
+                            <i class="fas fa-sign-in-alt"></i>
+                            <span>Login</span>
+                        </a>
+                        <a href="/auth/signup" class="btn-signup">
+                            <span class="quest-icon">🗺️</span>
+                            <span>Sign up</span>
+                        </a>
+                    <% } %>
+                </div>
+                
+                <div class="hamburger">
+                    <span></span>
+                    <span></span>
+                    <span></span>
+                </div>
+            </div>
+        </nav>
+    </header>
+    
+    <!-- Progress Bar -->
+    <div class="lesson-progress" style="top: 70px;">
+        <div class="progress-bar" id="progressBar"></div>
+    </div>
+
+    <!-- Main Layout -->
+    <div style="display: grid; grid-template-columns: 1fr 1fr; height: calc(100vh - 70px); margin-top: 70px;">
+        
+        <!-- Left Panel: Lesson Content -->
+        <div style="background: #1a1a2e; padding: 30px; overflow-y: auto; border-right: 2px solid #333;">
+            
+            <!-- Header -->
+            <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 30px;">
+                <div>
+                    <a href="/courses/python" style="color: #8b5cf6; text-decoration: none; font-size: 14px;">← Back to Course</a>
+                    <h1 style="margin: 8px 0 0 0; font-size: 1.8rem; color: #fff;" id="lessonTitle">Setting Up Python</h1>
+                    <p style="margin: 4px 0 0 0; color: #888; font-size: 14px;" id="lessonMeta">Chapter <%= chapterNum %> • Exercise <%= lessonNum %> of 5</p>
+                </div>
+                <div class="character-sprite" id="characterSprite">
+                    🐍
+                </div>
+            </div>
+
+            <!-- Lesson Content -->
+            <div id="lessonContent">
+                <% if (chapterNum == 1 && lessonNum == 1) { %>
+                    <div class="character-sprite" style="margin: 0 auto 20px auto;">🐍</div>
+                    <h2 style="color: #8b5cf6; margin-bottom: 16px;">Welcome to Python!</h2>
+                    <p style="line-height: 1.6; margin-bottom: 16px;">
+                        Python is one of the most popular programming languages in the world. It's used for web development, 
+                        data science, artificial intelligence, and much more!
+                    </p>
+                    
+                    <div style="background: #2a2a3e; padding: 16px; border-radius: 8px; margin: 20px 0; border-left: 4px solid #8b5cf6;">
+                        <h4 style="margin: 0 0 8px 0; color: #8b5cf6;">💡 Fun Fact</h4>
+                        <p style="margin: 0; font-size: 14px;">Python was named after the British comedy group "Monty Python"!</p>
+                    </div>
+
+                    <h3 style="color: #fff; margin: 24px 0 12px 0;">Your First Task</h3>
+                    <p style="line-height: 1.6; margin-bottom: 16px;">
+                        Let's start with the traditional "Hello, World!" program. In the code editor on the right, 
+                        type the following code:
+                    </p>
+                    
+                    <div style="background: #1e1e1e; padding: 16px; border-radius: 8px; font-family: 'Courier New', monospace; margin: 16px 0;">
+                        <code style="color: #d4d4d4;">print("Hello, World!")</code>
+                    </div>
+                    
+                    <p style="line-height: 1.6; color: #888; font-size: 14px;">
+                        Then click the "Run Code" button to see your first Python program in action!
+                    </p>
+                <% } else if (chapterNum == 1 && lessonNum == 2) { %>
+                    <div class="character-sprite" style="margin: 0 auto 20px auto;">🎉</div>
+                    <h2 style="color: #8b5cf6; margin-bottom: 16px;">Great Job!</h2>
+                    <p style="line-height: 1.6; margin-bottom: 16px;">
+                        You've just written your first Python program! The <code style="background: #2a2a3e; padding: 2px 6px; border-radius: 4px;">print()</code> 
+                        function is one of the most important functions in Python.
+                    </p>
+                    
+                    <h3 style="color: #fff; margin: 24px 0 12px 0;">Understanding print()</h3>
+                    <p style="line-height: 1.6; margin-bottom: 16px;">
+                        The <code style="background: #2a2a3e; padding: 2px 6px; border-radius: 4px;">print()</code> function 
+                        displays text on the screen. You can print different types of messages:
+                    </p>
+                    
+                    <div style="background: #1e1e1e; padding: 16px; border-radius: 8px; font-family: 'Courier New', monospace; margin: 16px 0;">
+                        <code style="color: #d4d4d4;">print("Welcome to Python!")<br>
+                        print("Learning is fun!")<br>
+                        print("Let's code together!")</code>
+                    </div>
+                    
+                    <h3 style="color: #fff; margin: 24px 0 12px 0;">Your Task</h3>
+                    <p style="line-height: 1.6; margin-bottom: 16px;">
+                        Write a program that prints three different messages about yourself. For example:
+                    </p>
+                    <ul style="line-height: 1.6; color: #ccc;">
+                        <li>Your name</li>
+                        <li>Your favorite hobby</li>
+                        <li>Why you want to learn Python</li>
+                    </ul>
+                <% } else if (chapterNum == 1 && lessonNum == 3) { %>
+                    <div class="character-sprite" style="margin: 0 auto 20px auto;">🖥️</div>
+                    <h2 style="color: #8b5cf6; margin-bottom: 16px;">The Python Console</h2>
+                    <p style="line-height: 1.6; margin-bottom: 16px;">
+                        The console (or terminal) is where your Python programs display their output. It's like a 
+                        conversation between you and your computer!
+                    </p>
+                    
+                    <div style="background: #2a2a3e; padding: 16px; border-radius: 8px; margin: 20px 0; border-left: 4px solid #fbbf24;">
+                        <h4 style="margin: 0 0 8px 0; color: #fbbf24;">🔍 Did You Know?</h4>
+                        <p style="margin: 0; font-size: 14px;">The terminal shows exactly what your program outputs, including any errors!</p>
+                    </div>
+
+                    <h3 style="color: #fff; margin: 24px 0 12px 0;">Special Characters</h3>
+                    <p style="line-height: 1.6; margin-bottom: 16px;">
+                        You can use special characters in your print statements:
+                    </p>
+                    
+                    <div style="background: #1e1e1e; padding: 16px; border-radius: 8px; font-family: 'Courier New', monospace; margin: 16px 0;">
+                        <code style="color: #d4d4d4;">print("Hello\nWorld!")  # \n creates a new line<br>
+                        print("Python\tis\tawesome!")  # \t creates a tab</code>
+                    </div>
+                    
+                    <h3 style="color: #fff; margin: 24px 0 12px 0;">Your Task</h3>
+                    <p style="line-height: 1.6; margin-bottom: 16px;">
+                        Create a program that prints a simple ASCII art or a formatted message using special characters.
+                    </p>
+                <% } else if (chapterNum == 1 && lessonNum == 4) { %>
+                    <div class="character-sprite" style="margin: 0 auto 20px auto;">💬</div>
+                    <h2 style="color: #8b5cf6; margin-bottom: 16px;">Adding Comments</h2>
+                    <p style="line-height: 1.6; margin-bottom: 16px;">
+                        Comments are notes you write in your code to explain what it does. They're ignored by Python 
+                        but are super helpful for other programmers (and future you!).
+                    </p>
+                    
+                    <h3 style="color: #fff; margin: 24px 0 12px 0;">Types of Comments</h3>
+                    
+                    <div style="background: #1e1e1e; padding: 16px; border-radius: 8px; font-family: 'Courier New', monospace; margin: 16px 0;">
+                        <code style="color: #d4d4d4;"># This is a single-line comment<br>
+                        print("Hello!")  # Comment at end of line<br><br>
+                        """<br>
+                        This is a multi-line comment<br>
+                        You can write multiple lines here<br>
+                        """</code>
+                    </div>
+                    
+                    <div style="background: #2a2a3e; padding: 16px; border-radius: 8px; margin: 20px 0; border-left: 4px solid #8b5cf6;">
+                        <h4 style="margin: 0 0 8px 0; color: #8b5cf6;">✨ Best Practice</h4>
+                        <p style="margin: 0; font-size: 14px;">Good comments explain WHY you're doing something, not just what you're doing!</p>
+                    </div>
+
+                    <h3 style="color: #fff; margin: 24px 0 12px 0;">Your Task</h3>
+                    <p style="line-height: 1.6; margin-bottom: 16px;">
+                        Write a program with at least 3 print statements, each with a comment explaining what it does.
+                    </p>
+                <% } else if (chapterNum == 1 && lessonNum == 5) { %>
+                    <div class="character-sprite" style="margin: 0 auto 20px auto;">📋</div>
+                    <h2 style="color: #8b5cf6; margin-bottom: 16px;">Python Syntax Rules</h2>
+                    <p style="line-height: 1.6; margin-bottom: 16px;">
+                        Python has some important rules about how to write code. Following these rules ensures 
+                        your code works properly!
+                    </p>
+                    
+                    <h3 style="color: #fff; margin: 24px 0 12px 0;">Key Rules</h3>
+                    <ul style="line-height: 1.8; color: #ccc;">
+                        <li><strong>Indentation matters:</strong> Python uses spaces/tabs to group code</li>
+                        <li><strong>Case sensitive:</strong> <code>Print</code> and <code>print</code> are different</li>
+                        <li><strong>Quotes for text:</strong> Use " " or ' ' around text</li>
+                        <li><strong>Parentheses for functions:</strong> Always use () with functions</li>
+                    </ul>
+                    
+                    <div style="background: #1e1e1e; padding: 16px; border-radius: 8px; font-family: 'Courier New', monospace; margin: 16px 0;">
+                        <code style="color: #d4d4d4;"># ✅ Correct<br>
+                        print("Hello, World!")<br>
+                        print('Python is awesome!')<br><br>
+                        # ❌ Incorrect<br>
+                        Print("Hello")  # Wrong capitalization<br>
+                        print Hello     # Missing quotes and parentheses</code>
+                    </div>
+                    
+                    <h3 style="color: #fff; margin: 24px 0 12px 0;">Your Final Task</h3>
+                    <p style="line-height: 1.6; margin-bottom: 16px;">
+                        Write a program that demonstrates good Python syntax. Include:
+                    </p>
+                    <ul style="line-height: 1.6; color: #ccc;">
+                        <li>At least 2 print statements with different quote styles</li>
+                        <li>Comments explaining your code</li>
+                        <li>Proper capitalization and parentheses</li>
+                    </ul>
+                <% } else if (chapterNum == 2) { %>
+                    <div class="character-sprite" style="margin: 0 auto 20px auto;">📦</div>
+                    <h2 style="color: #8b5cf6; margin-bottom: 16px;">Variables & Data Types</h2>
+                    <p style="line-height: 1.6; margin-bottom: 16px;">
+                        Variables are like containers that store data values. In Python, you can store different types of data!
+                    </p>
+                    
+                    <div style="background: #1e1e1e; padding: 16px; border-radius: 8px; font-family: 'Courier New', monospace; margin: 16px 0;">
+                        <code style="color: #d4d4d4;"># Creating variables<br>
+                        name = "Alice"        # String (text)<br>
+                        age = 25             # Integer (whole number)<br>
+                        height = 5.6         # Float (decimal number)<br>
+                        is_student = True    # Boolean (True/False)</code>
+                    </div>
+                    
+                    <h3 style="color: #fff; margin: 24px 0 12px 0;">Your Task</h3>
+                    <p style="line-height: 1.6; margin-bottom: 16px;">
+                        Create variables to store information about yourself and print them out.
+                    </p>
+                <% } else if (chapterNum == 3) { %>
+                    <div class="character-sprite" style="margin: 0 auto 20px auto;">🔢</div>
+                    <h2 style="color: #8b5cf6; margin-bottom: 16px;">Numbers & Math</h2>
+                    <p style="line-height: 1.6; margin-bottom: 16px;">
+                        Python can perform all kinds of mathematical operations. Let's explore numbers and math!
+                    </p>
+                    
+                    <div style="background: #1e1e1e; padding: 16px; border-radius: 8px; font-family: 'Courier New', monospace; margin: 16px 0;">
+                        <code style="color: #d4d4d4;"># Basic math operations<br>
+                        result = 10 + 5      # Addition<br>
+                        result = 10 - 3      # Subtraction<br>
+                        result = 4 * 6       # Multiplication<br>
+                        result = 15 / 3      # Division</code>
+                    </div>
+                    
+                    <h3 style="color: #fff; margin: 24px 0 12px 0;">Your Task</h3>
+                    <p style="line-height: 1.6; margin-bottom: 16px;">
+                        Create a simple calculator that performs basic math operations and prints the results.
+                    </p>
+                <% } else if (chapterNum == 4) { %>
+                    <div class="character-sprite" style="margin: 0 auto 20px auto;">📝</div>
+                    <h2 style="color: #8b5cf6; margin-bottom: 16px;">Strings & Text</h2>
+                    <p style="line-height: 1.6; margin-bottom: 16px;">
+                        Strings are sequences of characters. Python has many powerful ways to work with text!
+                    </p>
+                    
+                    <div style="background: #1e1e1e; padding: 16px; border-radius: 8px; font-family: 'Courier New', monospace; margin: 16px 0;">
+                        <code style="color: #d4d4d4;"># String operations<br>
+                        name = "Python"<br>
+                        greeting = "Hello, " + name  # Concatenation<br>
+                        upper_name = name.upper()    # Convert to uppercase<br>
+                        length = len(name)           # Get string length</code>
+                    </div>
+                    
+                    <h3 style="color: #fff; margin: 24px 0 12px 0;">Your Task</h3>
+                    <p style="line-height: 1.6; margin-bottom: 16px;">
+                        Create a program that manipulates strings in different ways.
+                    </p>
+                <% } else if (chapterNum == 5) { %>
+                    <div class="character-sprite" style="margin: 0 auto 20px auto;">⌨️</div>
+                    <h2 style="color: #8b5cf6; margin-bottom: 16px;">Input & Output</h2>
+                    <p style="line-height: 1.6; margin-bottom: 16px;">
+                        Learn how to get input from users and display output in interactive programs!
+                    </p>
+                    
+                    <div style="background: #1e1e1e; padding: 16px; border-radius: 8px; font-family: 'Courier New', monospace; margin: 16px 0;">
+                        <code style="color: #d4d4d4;"># Getting user input<br>
+                        name = input("What's your name? ")<br>
+                        age = input("How old are you? ")<br>
+                        print("Hello, " + name + "!")</code>
+                    </div>
+                    
+                    <h3 style="color: #fff; margin: 24px 0 12px 0;">Your Task</h3>
+                    <p style="line-height: 1.6; margin-bottom: 16px;">
+                        Create an interactive program that asks for user information and responds.
+                    </p>
+                <% } else if (chapterNum == 6) { %>
+                    <div class="character-sprite" style="margin: 0 auto 20px auto;">🤔</div>
+                    <h2 style="color: #8b5cf6; margin-bottom: 16px;">Conditions & If Statements</h2>
+                    <p style="line-height: 1.6; margin-bottom: 16px;">
+                        Make your programs smart by adding decision-making with if statements!
+                    </p>
+                    
+                    <div style="background: #1e1e1e; padding: 16px; border-radius: 8px; font-family: 'Courier New', monospace; margin: 16px 0;">
+                        <code style="color: #d4d4d4;"># If statements<br>
+                        age = 18<br>
+                        if age &gt;= 18:<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;print("You're an adult!")<br>
+                        else:<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;print("You're a minor!")</code>
+                    </div>
+                    
+                    <h3 style="color: #fff; margin: 24px 0 12px 0;">Your Task</h3>
+                    <p style="line-height: 1.6; margin-bottom: 16px;">
+                        Create a program that makes decisions based on different conditions.
+                    </p>
+                <% } else if (chapterNum == 7) { %>
+                    <div class="character-sprite" style="margin: 0 auto 20px auto;">🔄</div>
+                    <h2 style="color: #8b5cf6; margin-bottom: 16px;">Loops & Repetition</h2>
+                    <p style="line-height: 1.6; margin-bottom: 16px;">
+                        Loops let you repeat code multiple times. Perfect for automating repetitive tasks!
+                    </p>
+                    
+                    <div style="background: #1e1e1e; padding: 16px; border-radius: 8px; font-family: 'Courier New', monospace; margin: 16px 0;">
+                        <code style="color: #d4d4d4;"># For loop<br>
+                        for i in range(5):<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;print("Count:", i)<br><br>
+                        # While loop<br>
+                        count = 0<br>
+                        while count < 3:<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;print("Hello!")<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;count += 1</code>
+                    </div>
+                    
+                    <h3 style="color: #fff; margin: 24px 0 12px 0;">Your Task</h3>
+                    <p style="line-height: 1.6; margin-bottom: 16px;">
+                        Create programs using both for and while loops.
+                    </p>
+                <% } else if (chapterNum == 8) { %>
+                    <div class="character-sprite" style="margin: 0 auto 20px auto;">📋</div>
+                    <h2 style="color: #8b5cf6; margin-bottom: 16px;">Lists & Collections</h2>
+                    <p style="line-height: 1.6; margin-bottom: 16px;">
+                        Lists are ordered collections of items. They're incredibly useful for storing multiple values!
+                    </p>
+                    
+                    <div style="background: #1e1e1e; padding: 16px; border-radius: 8px; font-family: 'Courier New', monospace; margin: 16px 0;">
+                        <code style="color: #d4d4d4;"># Working with lists<br>
+                        fruits = ["apple", "banana", "orange"]<br>
+                        fruits.append("grape")     # Add item<br>
+                        print(fruits[0])          # Access first item<br>
+                        print(len(fruits))        # Get list length</code>
+                    </div>
+                    
+                    <h3 style="color: #fff; margin: 24px 0 12px 0;">Your Task</h3>
+                    <p style="line-height: 1.6; margin-bottom: 16px;">
+                        Create and manipulate lists of different types of data.
+                    </p>
+                <% } else if (chapterNum == 9) { %>
+                    <div class="character-sprite" style="margin: 0 auto 20px auto;">⚙️</div>
+                    <h2 style="color: #8b5cf6; margin-bottom: 16px;">Functions & Code Reuse</h2>
+                    <p style="line-height: 1.6; margin-bottom: 16px;">
+                        Functions let you organize your code into reusable blocks. Write once, use many times!
+                    </p>
+                    
+                    <div style="background: #1e1e1e; padding: 16px; border-radius: 8px; font-family: 'Courier New', monospace; margin: 16px 0;">
+                        <code style="color: #d4d4d4;"># Defining functions<br>
+                        def greet(name):<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;return "Hello, " + name + "!"<br><br>
+                        # Using functions<br>
+                        message = greet("Alice")<br>
+                        print(message)</code>
+                    </div>
+                    
+                    <h3 style="color: #fff; margin: 24px 0 12px 0;">Your Task</h3>
+                    <p style="line-height: 1.6; margin-bottom: 16px;">
+                        Create your own functions that perform useful tasks.
+                    </p>
+                <% } else if (chapterNum == 10) { %>
+                    <div class="character-sprite" style="margin: 0 auto 20px auto;">🏆</div>
+                    <h2 style="color: #8b5cf6; margin-bottom: 16px;">Final Project</h2>
+                    <p style="line-height: 1.6; margin-bottom: 16px;">
+                        Congratulations! It's time to put everything together in a final project that showcases your Python skills!
+                    </p>
+                    
+                    <div style="background: #2a2a3e; padding: 16px; border-radius: 8px; margin: 20px 0; border-left: 4px solid #fbbf24;">
+                        <h4 style="margin: 0 0 8px 0; color: #fbbf24;">🎯 Project Goal</h4>
+                        <p style="margin: 0; font-size: 14px;">Create a simple text-based game or calculator that uses all the concepts you've learned!</p>
+                    </div>
+                    
+                    <h3 style="color: #fff; margin: 24px 0 12px 0;">Your Final Challenge</h3>
+                    <p style="line-height: 1.6; margin-bottom: 16px;">
+                        Build a complete Python program that demonstrates your mastery of programming fundamentals.
+                    </p>
+                <% } else { %>
+                    <div class="character-sprite" style="margin: 0 auto 20px auto;">🔒</div>
+                    <h2 style="color: #fbbf24; margin-bottom: 16px;">Coming Soon!</h2>
+                    <p style="line-height: 1.6; margin-bottom: 16px;">
+                        This lesson is being prepared for you. Complete the previous lessons to unlock more content!
+                    </p>
+                    
+                    <div style="background: #2a2a3e; padding: 16px; border-radius: 8px; margin: 20px 0; border-left: 4px solid #fbbf24;">
+                        <h4 style="margin: 0 0 8px 0; color: #fbbf24;">📚 What's Next?</h4>
+                        <p style="margin: 0; font-size: 14px;">More exciting Python concepts are waiting for you in the upcoming lessons!</p>
+                    </div>
+                <% } %>
+            </div>
+
+            <!-- Navigation -->
+            <div style="display: flex; justify-content: space-between; align-items: center; margin-top: 40px; padding-top: 20px; border-top: 1px solid #333;">
+                <% if (parseInt(lessonNum) > 1) { %>
+                    <a href="/courses/python/lesson/<%= chapterNum %>/<%= parseInt(lessonNum) - 1 %>" class="btn btn-secondary">
+                        <i class="fas fa-arrow-left"></i> Previous
+                    </a>
+                <% } else if (parseInt(chapterNum) > 1) { %>
+                    <a href="/courses/python" class="btn btn-secondary">
+                        <i class="fas fa-arrow-left"></i> Back to Course
+                    </a>
+                <% } else { %>
+                    <div></div>
+                <% } %>
+                
+                <div style="display: flex; align-items: center; gap: 16px;">
+                    <div style="color: #888; font-size: 14px;">
+                        <span id="currentXP">0</span> XP earned
+                    </div>
+                    <div style="color: #888; font-size: 14px;">
+                        Lesson <%= lessonNum %> of <%= totalLessons %>
+                    </div>
+                </div>
+                
+                <div style="display: flex; gap: 12px;">
+                    <button id="nextBtn" class="btn btn-primary" onclick="checkAnswer()">
+                        Check Answer
+                    </button>
+                    
+                    <% 
+                    const currentChapter = parseInt(chapterNum);
+                    const currentLesson = parseInt(lessonNum);
+                    const maxLessons = totalLessons;
+                    let nextChapter = currentChapter;
+                    let nextLesson = currentLesson + 1;
+                    
+                    if (nextLesson > maxLessons) {
+                        nextChapter = currentChapter + 1;
+                        nextLesson = 1;
+                    }
+                    %>
+                    
+                    <% if (currentLesson < maxLessons) { %>
+                        <a href="/courses/python/lesson/<%= currentChapter %>/<%= nextLesson %>" class="btn btn-secondary" id="skipBtn">
+                            Skip <i class="fas fa-arrow-right"></i>
+                        </a>
+                    <% } else if (currentChapter < 10) { %>
+                        <a href="/courses/python/lesson/<%= nextChapter %>/1" class="btn btn-secondary" id="nextChapterBtn">
+                            Next Chapter <i class="fas fa-arrow-right"></i>
+                        </a>
+                    <% } else { %>
+                        <a href="/courses/python" class="btn btn-secondary" id="completeBtn">
+                            <i class="fas fa-trophy"></i> Complete Course
+                        </a>
+                    <% } %>
+                </div>
+            </div>
+        </div>
+
+        <!-- Right Panel: Code Editor -->
+        <div style="background: #0f1419; padding: 30px; display: flex; flex-direction: column;">
+            
+            <!-- Editor Header -->
+            <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 20px;">
+                <h3 style="margin: 0; color: #fff; font-size: 1.2rem;">Code Editor</h3>
+                <div style="display: flex; gap: 12px;">
+                    <button class="btn btn-primary" onclick="runCode()">
+                        <i class="fas fa-play"></i> Run Code
+                    </button>
+                    <button class="btn btn-secondary" onclick="resetCode()">
+                        <i class="fas fa-undo"></i> Reset
+                    </button>
+                </div>
+            </div>
+
+            <!-- Code Editor -->
+            <div class="code-editor" style="flex: 1; display: flex; margin-bottom: 20px;">
+                <div class="line-numbers" id="lineNumbers">1</div>
+                <textarea class="code-input" id="codeInput" placeholder="# Write your Python code here..." onkeyup="updateLineNumbers()" oninput="updateLineNumbers()"><% if (chapterNum == 1 && lessonNum == 1) { %># Write your first Python program here
+<% } else if (chapterNum == 1 && lessonNum == 2) { %># Print three messages about yourself
+<% } else if (chapterNum == 1 && lessonNum == 3) { %># Create some formatted output with special characters
+<% } else if (chapterNum == 1 && lessonNum == 4) { %># Add comments to explain your code
+<% } else if (chapterNum == 1 && lessonNum == 5) { %># Demonstrate good Python syntax
+<% } else if (chapterNum == 2) { %># Create variables and print them
+<% } else if (chapterNum == 3) { %># Perform math operations and print results
+<% } else if (chapterNum == 4) { %># Work with strings and text
+<% } else if (chapterNum == 5) { %># Get user input and respond
+<% } else if (chapterNum == 6) { %># Use if statements for decisions
+<% } else if (chapterNum == 7) { %># Create loops for repetition
+<% } else if (chapterNum == 8) { %># Work with lists and collections
+<% } else if (chapterNum == 9) { %># Define and use functions
+<% } else if (chapterNum == 10) { %># Build your final project
+<% } else { %># This lesson is coming soon!
+<% } %></textarea>
+            </div>
+
+            <!-- Terminal Output -->
+            <div style="margin-bottom: 20px;">
+                <h4 style="margin: 0 0 12px 0; color: #fff; font-size: 1rem;">Terminal Output</h4>
+                <div class="terminal" id="terminal">
+                    <div style="color: #888;">Ready to run your Python code...</div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        let userXP = 0;
+        const currentChapter = <%= chapterNum %>;
+        const currentLessonNum = <%= lessonNum %>;
+        const isLessonCompleted = <%= isLessonCompleted ? 'true' : 'false' %>;
+
+        // Initialize lesson
+        function initLesson() {
+            updateProgress();
+            updateLineNumbers();
+            
+            // Show completion status if lesson is already completed
+            if (isLessonCompleted) {
+                markLessonCompleted();
+            }
+        }
+
+        // Update progress bar
+        function updateProgress() {
+            const totalLessons = <%= totalLessons %>;
+            const progress = ((currentLessonNum - 1) / totalLessons) * 100;
+            document.getElementById('progressBar').style.width = progress + '%';
+        }
+
+        // Update line numbers
+        function updateLineNumbers() {
+            const textarea = document.getElementById('codeInput');
+            const lineNumbers = document.getElementById('lineNumbers');
+            const lines = textarea.value.split('\n').length;
+            
+            let numberString = '';
+            for (let i = 1; i <= lines; i++) {
+                numberString += i + '\n';
+            }
+            lineNumbers.textContent = numberString.trim();
+        }
+
+        // Run code simulation
+        function runCode() {
+            const code = document.getElementById('codeInput').value;
+            const terminal = document.getElementById('terminal');
+            
+            // Clear terminal
+            terminal.innerHTML = '<div style="color: #8b5cf6;">Running your code...</div>';
+            
+            setTimeout(() => {
+                try {
+                    // Simple Python interpreter simulation
+                    let output = '';
+                    const lines = code.split('\n');
+                    
+                    for (let line of lines) {
+                        line = line.trim();
+                        if (line.startsWith('print(') && line.endsWith(')')) {
+                            // Extract content between quotes
+                            const match = line.match(/print\(["'](.*)["']\)/);
+                            if (match) {
+                                output += match[1].replace(/\\n/g, '\n').replace(/\\t/g, '\t') + '\n';
+                            }
+                        }
+                    }
+                    
+                    if (output) {
+                        terminal.innerHTML = '<div style="color: #00ff00;">' + output.replace(/\n/g, '<br>') + '</div>';
+                    } else {
+                        terminal.innerHTML = '<div style="color: #fbbf24;">No output generated. Did you use print()?</div>';
+                    }
+                } catch (error) {
+                    terminal.innerHTML = '<div style="color: #ef4444;">Error: ' + error.message + '</div>';
+                }
+            }, 500);
+        }
+
+        // Reset code
+        function resetCode() {
+            const initialCodes = {
+                '1-1': '# Write your first Python program here\n',
+                '1-2': '# Print three messages about yourself\n',
+                '1-3': '# Create some formatted output with special characters\n',
+                '1-4': '# Add comments to explain your code\n',
+                '1-5': '# Demonstrate good Python syntax\n',
+                '2-1': '# Create variables and print them\n',
+                '2-2': '# Work with different data types\n',
+                '2-3': '# Practice variable naming\n',
+                '2-4': '# Convert between data types\n',
+                '2-5': '# Create multiple variables\n',
+                '2-6': '# Work with constants\n',
+                '3-1': '# Perform basic math operations\n',
+                '3-2': '# Practice order of operations\n',
+                '3-3': '# Use math functions\n',
+                '3-4': '# Generate random numbers\n',
+                '3-5': '# Build a calculator\n'
+            };
+            
+            const key = currentChapter + '-' + currentLessonNum;
+            document.getElementById('codeInput').value = initialCodes[key] || '# Write your Python code here\n';
+            updateLineNumbers();
+            document.getElementById('terminal').innerHTML = '<div style="color: #888;">Ready to run your Python code...</div>';
+        }
+
+        // Check answer
+        async function checkAnswer() {
+            const code = document.getElementById('codeInput').value.trim();
+            let isCorrect = false;
+            let hint = '';
+            
+            // Basic check - code should not be empty
+            if (!code || code.length < 5) {
+                showFeedback('Please write some code first!', 'hint');
+                return;
+            }
+            
+            // Lesson-specific validation
+            if (currentChapter === 1) {
+                if (currentLessonNum === 1) {
+                    isCorrect = code.includes('print(') && (code.includes('Hello, World!') || code.includes("Hello, World!"));
+                    hint = 'Use the print() function with "Hello, World!" in quotes';
+                } else if (currentLessonNum === 2) {
+                    const printCount = (code.match(/print\(/g) || []).length;
+                    isCorrect = printCount >= 3;
+                    hint = 'You need at least 3 print() statements';
+                } else if (currentLessonNum === 3) {
+                    isCorrect = code.includes('\\n') || code.includes('\\t') || code.includes('\n') || code.includes('\t');
+                    hint = 'Use \\n for new lines or \\t for tabs in your print statements';
+                } else if (currentLessonNum === 4) {
+                    isCorrect = code.includes('#') && code.includes('print(');
+                    hint = 'Add comments using # and include print statements';
+                } else if (currentLessonNum === 5) {
+                    isCorrect = code.includes('print(') && code.includes('#') && code.trim().length > 20;
+                    hint = 'Show good syntax with print statements, comments, and proper formatting';
+                }
+            } else {
+                // More flexible validation for other chapters
+                const hasValidCode = code.includes('print(') || code.includes('=') || 
+                                   code.includes('def ') || code.includes('if ') || 
+                                   code.includes('for ') || code.includes('while ') ||
+                                   code.includes('input(') || code.includes('[') || code.includes('{');
+                isCorrect = hasValidCode && code.length > 10;
+                hint = 'Write some Python code using the concepts from this chapter';
+            }
+            
+            if (isCorrect) {
+                try {
+                    // Mark lesson as completed in database
+                    const response = await fetch('/api/progress/complete-lesson', {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json',
+                        },
+                        body: JSON.stringify({
+                            chapter: currentChapter,
+                            lesson: currentLessonNum
+                        })
+                    });
+                    
+                    const result = await response.json();
+                    
+                    if (result.success) {
+                        // Show success message with XP earned
+                        showFeedback(`Excellent work! 🎉 You earned ${result.xpEarned} XP!`, 'success');
+                        
+                        // Update lesson completion status
+                        markLessonCompleted();
+                        
+                        // Navigate to next lesson after delay
+                        setTimeout(() => {
+                            const totalLessons = <%= totalLessons %>;
+                            if (currentLessonNum < totalLessons) {
+                                window.location.href = `/courses/python/lesson/${currentChapter}/${currentLessonNum + 1}`;
+                            } else if (currentChapter < 10) {
+                                window.location.href = `/courses/python/lesson/${currentChapter + 1}/1`;
+                            } else {
+                                window.location.href = '/courses/python';
+                            }
+                        }, 2000);
+                    } else {
+                        showFeedback('Error saving progress. Please try again.', 'hint');
+                    }
+                } catch (error) {
+                    console.error('Error completing lesson:', error);
+                    showFeedback('Error saving progress. Please try again.', 'hint');
+                }
+            } else {
+                showFeedback('Not quite right. ' + hint, 'hint');
+            }
+        }
+        
+        // Mark lesson as completed visually
+        function markLessonCompleted() {
+            const checkAnswerBtn = document.querySelector('.action-btn[onclick="checkAnswer()"]');
+            if (checkAnswerBtn) {
+                checkAnswerBtn.innerHTML = '<span>✅</span><span>Completed!</span>';
+                checkAnswerBtn.style.background = 'linear-gradient(135deg, #10b981 0%, #059669 100%)';
+                checkAnswerBtn.onclick = null;
+            }
+        }
+
+        // Show feedback
+        function showFeedback(message, type) {
+            const feedback = document.createElement('div');
+            feedback.style.cssText = `
+                position: fixed;
+                top: 50px;
+                right: 20px;
+                padding: 16px 24px;
+                border-radius: 8px;
+                color: white;
+                font-weight: 600;
+                z-index: 1001;
+                animation: slideIn 0.3s ease;
+                ${type === 'success' ? 'background: #10b981;' : 'background: #f59e0b;'}
+            `;
+            feedback.textContent = message;
+            document.body.appendChild(feedback);
+            
+            setTimeout(() => {
+                feedback.remove();
+            }, 3000);
+        }
+
+        // Initialize when page loads
+        document.addEventListener('DOMContentLoaded', initLesson);
+
+        // Keyboard shortcuts
+        document.addEventListener('keydown', function(e) {
+            if (e.ctrlKey && e.key === 'Enter') {
+                runCode();
+            }
+        });
+    </script>
+</body>
+</html> 

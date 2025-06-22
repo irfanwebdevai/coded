@@ -1,0 +1,653 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Codedx - Master the Art of Code</title>
+    <link rel="stylesheet" href="/css/style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+</head>
+<body>
+    <!-- Header -->
+    <header class="header">
+        <nav class="navbar">
+            <div class="nav-container">
+                <div class="nav-brand">
+                    <span class="brand-icon">🛡️</span>
+                    <span>Codedx</span>
+                </div>
+                
+                <ul class="nav-menu">
+                    <li class="nav-item">
+                        <a href="/courses" class="nav-link">Courses</a>
+                    </li>
+                </ul>
+                
+                <div class="nav-actions">
+                    <% if (typeof isAuthenticated !== 'undefined' && isAuthenticated) { %>
+                        <div class="user-menu">
+                            <span class="user-avatar">
+                                <% if (user.avatar) { %>
+                                    <img src="<%= user.avatar %>" alt="<%= user.name %>" class="avatar-img">
+                                <% } else { %>
+                                    <i class="fas fa-user-circle"></i>
+                                <% } %>
+                            </span>
+                            <span class="user-name"><%= user.name %></span>
+                        </div>
+                        <a href="/auth/dashboard" class="btn-secondary">
+                            <span>🎮</span>
+                            <span>Dashboard</span>
+                        </a>
+                        <a href="/auth/logout" class="btn-secondary">
+                            <span>🚪</span>
+                            <span>Logout</span>
+                        </a>
+                    <% } else { %>
+                        <a href="/auth/login" class="btn-settings">
+                            <i class="fas fa-sign-in-alt"></i>
+                            <span>Login</span>
+                        </a>
+                        <a href="/auth/signup" class="btn-signup">
+                            <span class="quest-icon">🗺️</span>
+                            <span>Sign up</span>
+                        </a>
+                    <% } %>
+                </div>
+                
+                <div class="hamburger">
+                    <span></span>
+                    <span></span>
+                    <span></span>
+                </div>
+            </div>
+        </nav>
+    </header>
+
+    <!-- Flash Messages -->
+    <% if (typeof success !== 'undefined' && success.length > 0) { %>
+        <div class="flash-message success" style="position: fixed; top: 100px; right: 20px; z-index: 1000; background: rgba(34, 197, 94, 0.9); color: white; padding: 15px 20px; border-radius: 8px; border: 2px solid #22c55e; font-family: 'VT323', monospace; font-size: 16px; text-transform: uppercase; letter-spacing: 1px; display: flex; align-items: center; gap: 10px; animation: slideIn 0.5s ease-out;">
+            <i class="fas fa-check-circle"></i>
+            <%= success %>
+        </div>
+    <% } %>
+
+    <% if (typeof error !== 'undefined' && error.length > 0) { %>
+        <div class="flash-message error" style="position: fixed; top: 100px; right: 20px; z-index: 1000; background: rgba(239, 68, 68, 0.9); color: white; padding: 15px 20px; border-radius: 8px; border: 2px solid #ef4444; font-family: 'VT323', monospace; font-size: 16px; text-transform: uppercase; letter-spacing: 1px; display: flex; align-items: center; gap: 10px; animation: slideIn 0.5s ease-out;">
+            <i class="fas fa-exclamation-circle"></i>
+            <%= error %>
+        </div>
+    <% } %>
+
+    <!-- Hero Section -->
+    <section class="hero">
+        <div class="container">
+            <div class="hero-content" style="text-align: left; max-width: 600px;">
+                <h1 class="hero-title" style="text-align: left;">Master the Art of Code</h1>
+                <p class="hero-subtitle" style="text-align: left;">
+                    Start your Adventure in the world of programming. Master coding skills,
+                    build epic projects, and join a legendary community of developers.
+                </p>
+                <div class="hero-actions" style="justify-content: flex-start;">
+                    <% if (typeof isAuthenticated !== 'undefined' && isAuthenticated) { %>
+                        <a href="/auth/dashboard" class="btn-primary btn-large">
+                            <span class="quest-icon">🎮</span>
+                            <span>Continue Adventure</span>
+                        </a>
+                    <% } else { %>
+                        <a href="/auth/signup" class="btn-primary btn-large">
+                            <span class="quest-icon">⚔️</span>
+                            <span>Join the Guild</span>
+                        </a>
+                    <% } %>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Courses Section -->
+    <section class="courses" style="padding: 80px 0; background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%);">
+        <div class="container">
+            <div class="section-header" style="text-align: center; margin-bottom: 60px;">
+                <h2 style="color: #fff; font-size: 2.5rem; margin-bottom: 16px;">Learn to code with fun, interactive courses handcrafted by industry experts and educators.</h2>
+                
+                <!-- Course Categories -->
+                <div class="course-categories" style="display: flex; justify-content: center; gap: 20px; margin-top: 40px;">
+                    <button class="category-btn active" style="padding: 12px 24px; border-radius: 25px; border: 2px solid #4a9eff; background: #4a9eff; color: white; font-weight: 600; cursor: pointer;">Popular</button>
+                    <button class="category-btn" style="padding: 12px 24px; border-radius: 25px; border: 2px solid #555; background: transparent; color: #ccc; font-weight: 600; cursor: pointer;">Web Development</button>
+                    <button class="category-btn" style="padding: 12px 24px; border-radius: 25px; border: 2px solid #555; background: transparent; color: #ccc; font-weight: 600; cursor: pointer;">Data Science</button>
+                    <button class="category-btn" style="padding: 12px 24px; border-radius: 25px; border: 2px solid #555; background: transparent; color: #ccc; font-weight: 600; cursor: pointer;">Tools</button>
+                </div>
+            </div>
+            
+            <!-- Course Grid -->
+            <div class="courses-grid" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(400px, 1fr)); gap: 30px; max-width: 1200px; margin: 0 auto;">
+                
+                <!-- Python Course -->
+                <a href="/courses/python" style="text-decoration: none; color: inherit;">
+                <div class="course-card" style="background: #2a2a3e; border-radius: 16px; overflow: hidden; box-shadow: 0 10px 30px rgba(0,0,0,0.3); transition: transform 0.3s ease, box-shadow 0.3s ease; cursor: pointer;">
+                    <div class="course-image" style="height: 200px; background: linear-gradient(135deg, #4ade80 0%, #22c55e 50%, #16a34a 100%); position: relative; overflow: hidden;">
+                        <!-- Python Jungle Theme Decorations -->
+                        <div style="position: absolute; top: 30px; right: 30px; width: 40px; height: 40px; background: #065f46; border-radius: 50%; opacity: 0.3;"></div>
+                        <div style="position: absolute; bottom: 40px; left: 50%; transform: translateX(-50%); width: 60px; height: 60px; background: #fbbf24; border-radius: 50%; opacity: 0.8;"></div>
+                        <div style="position: absolute; bottom: 20px; left: 20px; right: 20px; height: 8px; background: #065f46; border-radius: 4px; opacity: 0.4;"></div>
+                        
+                        <!-- Python Logo -->
+                        <div style="position: absolute; top: 20px; left: 20px; width: 60px; height: 60px; background: #3776ab; border-radius: 12px; display: flex; align-items: center; justify-content: center; box-shadow: 0 4px 12px rgba(0,0,0,0.2);">
+                            <span style="color: white; font-size: 24px; font-weight: bold;">🐍</span>
+                        </div>
+                    </div>
+                    
+                    <div class="course-content" style="padding: 24px;">
+                        <div class="course-meta" style="margin-bottom: 12px;">
+                            <span style="color: #888; font-size: 14px; text-transform: uppercase; font-weight: 600; letter-spacing: 1px;">COURSE</span>
+                        </div>
+                        
+                        <h3 style="color: #fff; font-size: 1.5rem; font-weight: 700; margin-bottom: 12px;">Python</h3>
+                        
+                        <p style="color: #ccc; line-height: 1.6; margin-bottom: 20px;">
+                            Learn programming fundamentals such as variables, control flow, and loops with the world's most popular programming language.
+                        </p>
+                        
+                        <div class="course-level" style="display: flex; align-items: center; gap: 8px;">
+                            <div style="width: 8px; height: 8px; background: #22c55e; border-radius: 50%;"></div>
+                            <span style="color: #22c55e; font-size: 14px; font-weight: 600;">BEGINNER</span>
+                        </div>
+                    </div>
+                </div>
+                </a>
+                
+            </div>
+        </div>
+    </section>
+
+    <!-- Features Section -->
+    <section class="features">
+        <div class="container">
+            <div class="section-header">
+                <h2>Why Join Our Guild?</h2>
+                <p>Embark on the ultimate coding adventure</p>
+            </div>
+            <div class="features-grid">
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <i class="fas fa-sword"></i>
+                    </div>
+                    <h3>Epic Quests</h3>
+                    <p>Master coding skills through challenging quests and hands-on battles with real code.</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <i class="fas fa-users"></i>
+                    </div>
+                    <h3>Guild Support</h3>
+                    <p>Join forces with fellow adventurers and legendary developers in your coding journey.</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <i class="fas fa-trophy"></i>
+                    </div>
+                    <h3>Level Up</h3>
+                    <p>Track your progress, earn achievements, and climb the leaderboard as you master new skills.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Interactive Game Section -->
+    <section class="game-section" style="padding: 80px 0; background: linear-gradient(135deg, #1a1a2e 0%, #16213e 50%, #0f1419 100%); position: relative; overflow: hidden;">
+        <!-- Animated Background Elements -->
+        <div class="game-bg-effects">
+            <div style="position: absolute; top: 10%; left: 10%; width: 4px; height: 4px; background: #4ade80; border-radius: 50%; animation: float 6s ease-in-out infinite;"></div>
+            <div style="position: absolute; top: 20%; right: 15%; width: 6px; height: 6px; background: #fbbf24; border-radius: 50%; animation: float 8s ease-in-out infinite reverse;"></div>
+            <div style="position: absolute; bottom: 15%; left: 20%; width: 3px; height: 3px; background: #ef4444; border-radius: 50%; animation: float 7s ease-in-out infinite;"></div>
+            <div style="position: absolute; bottom: 25%; right: 10%; width: 5px; height: 5px; background: #8b5cf6; border-radius: 50%; animation: float 9s ease-in-out infinite reverse;"></div>
+        </div>
+
+        <div class="container">
+            <!-- Game Header -->
+            <div class="game-header" style="text-align: center; margin-bottom: 50px;">
+                <h2 style="color: #4ade80; font-family: 'Press Start 2P', monospace; font-size: 2rem; margin-bottom: 16px; text-shadow: 0 0 20px rgba(74, 222, 128, 0.5);">🎮 CODE BREAKER CHALLENGE</h2>
+                <p style="color: #ccc; font-size: 1.2rem; margin-bottom: 20px;">Think like a programmer! Crack the code patterns to unlock the next level.</p>
+                <div class="game-stats" style="display: flex; justify-content: center; gap: 30px; margin-top: 20px;">
+                    <div class="stat" style="background: rgba(74, 222, 128, 0.1); padding: 12px 20px; border-radius: 8px; border: 1px solid #4ade80;">
+                        <span style="color: #4ade80; font-weight: bold;">Level: </span>
+                        <span id="gameLevel" style="color: #fff; font-family: 'Press Start 2P', monospace;">1</span>
+                    </div>
+                    <div class="stat" style="background: rgba(251, 191, 36, 0.1); padding: 12px 20px; border-radius: 8px; border: 1px solid #fbbf24;">
+                        <span style="color: #fbbf24; font-weight: bold;">Score: </span>
+                        <span id="gameScore" style="color: #fff; font-family: 'Press Start 2P', monospace;">0</span>
+                    </div>
+                    <div class="stat" style="background: rgba(239, 68, 68, 0.1); padding: 12px 20px; border-radius: 8px; border: 1px solid #ef4444;">
+                        <span style="color: #ef4444; font-weight: bold;">Lives: </span>
+                        <span id="gameLives" style="color: #fff; font-family: 'Press Start 2P', monospace;">❤️❤️❤️</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Game Area -->
+            <div class="game-container" style="max-width: 800px; margin: 0 auto; background: rgba(0, 0, 0, 0.4); border-radius: 16px; padding: 40px; border: 2px solid rgba(74, 222, 128, 0.3); box-shadow: 0 0 30px rgba(74, 222, 128, 0.2);">
+                
+                <!-- Pattern Display -->
+                <div class="pattern-section" style="text-align: center; margin-bottom: 40px;">
+                    <h3 style="color: #fff; margin-bottom: 20px; font-size: 1.3rem;">🧩 Find the Pattern:</h3>
+                    <div id="patternDisplay" style="background: #1a1a2e; padding: 30px; border-radius: 12px; border: 2px solid #333; font-family: 'Courier New', monospace; font-size: 1.5rem; color: #4ade80; letter-spacing: 4px; min-height: 80px; display: flex; align-items: center; justify-content: center;">
+                        Loading...
+                    </div>
+                    <p id="patternHint" style="color: #888; margin-top: 15px; font-style: italic;">What comes next in this sequence?</p>
+                </div>
+
+                <!-- Answer Input -->
+                <div class="answer-section" style="text-align: center; margin-bottom: 30px;">
+                    <div style="display: flex; justify-content: center; align-items: center; gap: 20px; flex-wrap: wrap;">
+                        <input type="text" id="answerInput" placeholder="Your answer..." style="background: #2a2a3e; border: 2px solid #555; color: #fff; padding: 15px 20px; border-radius: 8px; font-size: 1.2rem; font-family: 'Courier New', monospace; text-align: center; min-width: 200px;" maxlength="10">
+                        <button id="submitAnswer" style="background: linear-gradient(135deg, #4ade80 0%, #22c55e 100%); color: #000; border: none; padding: 15px 30px; border-radius: 8px; font-weight: bold; font-size: 1.1rem; cursor: pointer; transition: all 0.3s ease; font-family: 'Press Start 2P', monospace; text-transform: uppercase;">
+                            🚀 Submit
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Game Feedback -->
+                <div id="gameFeedback" style="text-align: center; min-height: 50px; display: flex; align-items: center; justify-content: center;">
+                    <p style="color: #ccc; font-size: 1.1rem;">Enter your answer and click Submit to start!</p>
+                </div>
+
+                <!-- Answer Options (for some levels) -->
+                <div id="optionsContainer" style="display: none; justify-content: center; gap: 15px; flex-wrap: wrap; margin-top: 20px;">
+                    <!-- Options will be populated by JavaScript -->
+                </div>
+
+                <!-- Game Over / Victory Screen -->
+                <div id="gameEndScreen" style="display: none; text-align: center; padding: 40px 20px; background: rgba(74, 222, 128, 0.1); border-radius: 12px; border: 2px solid #4ade80; margin-top: 30px;">
+                    <h3 id="gameEndTitle" style="color: #4ade80; font-size: 1.8rem; margin-bottom: 20px; font-family: 'Press Start 2P', monospace;"></h3>
+                    <p id="gameEndMessage" style="color: #ccc; font-size: 1.1rem; margin-bottom: 30px;"></p>
+                    <div style="display: flex; justify-content: center; gap: 20px; flex-wrap: wrap;">
+                        <button id="playAgainBtn" style="background: linear-gradient(135deg, #4ade80 0%, #22c55e 100%); color: #000; border: none; padding: 15px 30px; border-radius: 8px; font-weight: bold; cursor: pointer; font-family: 'Press Start 2P', monospace; text-transform: uppercase;">
+                            🔄 Play Again
+                        </button>
+                        <% if (typeof isAuthenticated !== 'undefined' && isAuthenticated) { %>
+                            <a href="/auth/dashboard" style="background: linear-gradient(135deg, #fbbf24 0%, #f59e0b 100%); color: #000; border: none; padding: 15px 30px; border-radius: 8px; font-weight: bold; text-decoration: none; display: inline-block; font-family: 'Press Start 2P', monospace; text-transform: uppercase;">
+                                🎮 Dashboard
+                            </a>
+                        <% } else { %>
+                            <a href="/auth/signup" style="background: linear-gradient(135deg, #fbbf24 0%, #f59e0b 100%); color: #000; border: none; padding: 15px 30px; border-radius: 8px; font-weight: bold; text-decoration: none; display: inline-block; font-family: 'Press Start 2P', monospace; text-transform: uppercase;">
+                                ⚔️ Join Guild
+                            </a>
+                        <% } %>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Game Instructions -->
+            <div class="game-instructions" style="max-width: 600px; margin: 40px auto 0; text-align: center; background: rgba(255, 255, 255, 0.05); padding: 30px; border-radius: 12px; border: 1px solid rgba(255, 255, 255, 0.1);">
+                <h4 style="color: #4ade80; margin-bottom: 15px; font-size: 1.2rem;">🎯 How to Play:</h4>
+                <ul style="color: #ccc; text-align: left; line-height: 1.8; list-style: none; padding: 0;">
+                    <li style="margin-bottom: 8px;">🧠 <strong>Analyze</strong> the pattern in each sequence</li>
+                    <li style="margin-bottom: 8px;">💡 <strong>Think</strong> like a programmer - look for logic!</li>
+                    <li style="margin-bottom: 8px;">⌨️ <strong>Enter</strong> what comes next in the pattern</li>
+                    <li style="margin-bottom: 8px;">🚀 <strong>Level up</strong> with each correct answer</li>
+                    <li style="margin-bottom: 8px;">❤️ <strong>3 lives</strong> - use them wisely!</li>
+                </ul>
+            </div>
+        </div>
+    </section>
+
+    <script src="/js/script.js"></script>
+    
+    <style>
+        /* Course Card Hover Effects */
+        .course-card:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 20px 40px rgba(0,0,0,0.4) !important;
+        }
+        
+        .category-btn:hover {
+            background: #4a9eff !important;
+            color: white !important;
+            border-color: #4a9eff !important;
+        }
+        
+        .category-btn.active {
+            background: #4a9eff !important;
+            color: white !important;
+            border-color: #4a9eff !important;
+        }
+        
+        @media (max-width: 768px) {
+            .courses-grid {
+                grid-template-columns: 1fr !important;
+            }
+            
+            .course-categories {
+                flex-wrap: wrap !important;
+                gap: 10px !important;
+            }
+            
+            .category-btn {
+                font-size: 14px !important;
+                padding: 10px 18px !important;
+            }
+        }
+    </style>
+    
+    <style>
+        @keyframes slideIn {
+            from {
+                transform: translateX(100%);
+                opacity: 0;
+            }
+            to {
+                transform: translateX(0);
+                opacity: 1;
+            }
+        }
+
+        @keyframes float {
+            0%, 100% { transform: translateY(0px); opacity: 0.7; }
+            50% { transform: translateY(-20px); opacity: 1; }
+        }
+
+        @keyframes pulse {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.05); }
+        }
+
+        @keyframes glow {
+            0%, 100% { box-shadow: 0 0 10px rgba(74, 222, 128, 0.2); }
+            50% { box-shadow: 0 0 30px rgba(74, 222, 128, 0.6); }
+        }
+
+        .game-container {
+            animation: glow 3s ease-in-out infinite;
+        }
+
+        #submitAnswer:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(74, 222, 128, 0.3);
+        }
+
+        #submitAnswer:active {
+            transform: translateY(0);
+        }
+
+        .option-btn {
+            background: rgba(74, 222, 128, 0.1);
+            border: 2px solid #4ade80;
+            color: #4ade80;
+            padding: 12px 20px;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-family: 'Courier New', monospace;
+            font-size: 1.1rem;
+            min-width: 80px;
+        }
+
+        .option-btn:hover {
+            background: rgba(74, 222, 128, 0.2);
+            transform: translateY(-2px);
+        }
+
+        .option-btn.correct {
+            background: rgba(34, 197, 94, 0.3);
+            border-color: #22c55e;
+            color: #22c55e;
+        }
+
+        .option-btn.wrong {
+            background: rgba(239, 68, 68, 0.3);
+            border-color: #ef4444;
+            color: #ef4444;
+        }
+
+        @media (max-width: 768px) {
+            .game-stats {
+                flex-direction: column !important;
+                gap: 15px !important;
+            }
+            
+            .game-container {
+                padding: 20px !important;
+            }
+            
+            #patternDisplay {
+                font-size: 1.2rem !important;
+                padding: 20px !important;
+            }
+            
+            .answer-section > div {
+                flex-direction: column !important;
+                gap: 15px !important;
+            }
+            
+            #answerInput {
+                min-width: auto !important;
+                width: 100% !important;
+            }
+        }
+    </style>
+    
+    <script>
+        // Auto-hide flash messages after 5 seconds
+        document.addEventListener('DOMContentLoaded', function() {
+            const flashMessages = document.querySelectorAll('.flash-message');
+            flashMessages.forEach(function(message) {
+                setTimeout(function() {
+                    message.style.animation = 'slideIn 0.5s ease-out reverse';
+                    setTimeout(function() {
+                        message.remove();
+                    }, 500);
+                }, 5000);
+                
+                // Click to dismiss
+                message.addEventListener('click', function() {
+                    message.style.animation = 'slideIn 0.5s ease-out reverse';
+                    setTimeout(function() {
+                        message.remove();
+                    }, 500);
+                });
+            });
+
+            // Initialize the Code Breaker Game
+            initCodeBreakerGame();
+        });
+
+        // Code Breaker Game Logic
+        let gameState = {
+            level: 1,
+            score: 0,
+            lives: 3,
+            currentPattern: null,
+            currentAnswer: null,
+            isGameOver: false
+        };
+
+        const patterns = [
+            // Level 1 - Simple number sequence
+            { pattern: "1, 2, 3, 4, ?", answer: "5", hint: "Count up by 1", type: "number" },
+            
+            // Level 2 - Even numbers
+            { pattern: "2, 4, 6, 8, ?", answer: "10", hint: "Even numbers", type: "number" },
+            
+            // Level 3 - Fibonacci-like
+            { pattern: "1, 1, 2, 3, 5, ?", answer: "8", hint: "Add the previous two numbers", type: "number" },
+            
+            // Level 4 - Powers of 2
+            { pattern: "1, 2, 4, 8, ?", answer: "16", hint: "Double each time", type: "number" },
+            
+            // Level 5 - Letter pattern
+            { pattern: "A, B, C, D, ?", answer: "E", hint: "Alphabet sequence", type: "letter" },
+            
+            // Level 6 - Skip counting
+            { pattern: "3, 6, 9, 12, ?", answer: "15", hint: "Multiples of 3", type: "number" },
+            
+            // Level 7 - Decreasing
+            { pattern: "10, 8, 6, 4, ?", answer: "2", hint: "Subtract 2 each time", type: "number" },
+            
+            // Level 8 - Binary pattern
+            { pattern: "1, 10, 11, 100, ?", answer: "101", hint: "Binary counting", type: "binary" },
+            
+            // Level 9 - Alternating pattern
+            { pattern: "1, 4, 2, 5, 3, ?", answer: "6", hint: "Two sequences mixed together", type: "number" },
+            
+            // Level 10 - Programming sequence
+            { pattern: "0, 1, 4, 9, 16, ?", answer: "25", hint: "Perfect squares (n²)", type: "number" }
+        ];
+
+        function initCodeBreakerGame() {
+            // Load first pattern
+            loadPattern();
+            
+            // Event listeners
+            document.getElementById('submitAnswer').addEventListener('click', submitAnswer);
+            document.getElementById('answerInput').addEventListener('keypress', function(e) {
+                if (e.key === 'Enter') {
+                    submitAnswer();
+                }
+            });
+            document.getElementById('playAgainBtn').addEventListener('click', resetGame);
+            
+            // Focus on input
+            document.getElementById('answerInput').focus();
+        }
+
+        function loadPattern() {
+            if (gameState.level > patterns.length) {
+                // Game completed!
+                showGameEnd(true);
+                return;
+            }
+            
+            const pattern = patterns[gameState.level - 1];
+            gameState.currentPattern = pattern;
+            gameState.currentAnswer = pattern.answer.toLowerCase();
+            
+            // Update display
+            document.getElementById('patternDisplay').textContent = pattern.pattern;
+            document.getElementById('patternHint').textContent = pattern.hint;
+            document.getElementById('answerInput').value = '';
+            document.getElementById('answerInput').focus();
+            
+            // Hide options container for input-based levels
+            document.getElementById('optionsContainer').style.display = 'none';
+            
+            // Update game stats
+            updateGameStats();
+            
+            // Show feedback
+            showFeedback("Level " + gameState.level + " - " + pattern.hint, "#4ade80");
+        }
+
+        function submitAnswer() {
+            const userAnswer = document.getElementById('answerInput').value.trim().toLowerCase();
+            
+            if (!userAnswer) {
+                showFeedback("Please enter an answer!", "#fbbf24");
+                return;
+            }
+            
+            if (userAnswer === gameState.currentAnswer) {
+                // Correct answer!
+                gameState.score += gameState.level * 100;
+                gameState.level++;
+                
+                showFeedback("🎉 Correct! +" + ((gameState.level - 1) * 100) + " points", "#22c55e");
+                
+                setTimeout(() => {
+                    loadPattern();
+                }, 1500);
+                
+            } else {
+                // Wrong answer
+                gameState.lives--;
+                
+                if (gameState.lives <= 0) {
+                    showGameEnd(false);
+                } else {
+                    const livesDisplay = "❤️".repeat(gameState.lives) + "💔".repeat(3 - gameState.lives);
+                    document.getElementById('gameLives').textContent = livesDisplay;
+                    
+                    showFeedback("❌ Wrong! The answer was: " + gameState.currentPattern.answer + ". Try the next one!", "#ef4444");
+                    
+                    setTimeout(() => {
+                        gameState.level++;
+                        loadPattern();
+                    }, 2500);
+                }
+            }
+            
+            updateGameStats();
+        }
+
+        function updateGameStats() {
+            document.getElementById('gameLevel').textContent = gameState.level;
+            document.getElementById('gameScore').textContent = gameState.score;
+            
+            const livesDisplay = "❤️".repeat(gameState.lives) + (gameState.lives < 3 ? "💔".repeat(3 - gameState.lives) : "");
+            document.getElementById('gameLives').textContent = livesDisplay;
+        }
+
+        function showFeedback(message, color) {
+            const feedback = document.getElementById('gameFeedback');
+            feedback.innerHTML = `<p style="color: ${color}; font-size: 1.1rem; font-weight: bold;">${message}</p>`;
+            
+            // Add pulse animation
+            feedback.style.animation = 'pulse 0.5s ease-in-out';
+            setTimeout(() => {
+                feedback.style.animation = '';
+            }, 500);
+        }
+
+        function showGameEnd(victory) {
+            gameState.isGameOver = true;
+            
+            const endScreen = document.getElementById('gameEndScreen');
+            const title = document.getElementById('gameEndTitle');
+            const message = document.getElementById('gameEndMessage');
+            
+            if (victory) {
+                title.textContent = "🏆 VICTORY!";
+                message.textContent = `Congratulations! You've mastered all ${patterns.length} levels with a score of ${gameState.score} points. You think like a true programmer! Ready to start your real coding journey?`;
+                endScreen.style.borderColor = '#4ade80';
+                endScreen.style.background = 'rgba(74, 222, 128, 0.1)';
+            } else {
+                title.textContent = "💀 GAME OVER";
+                message.textContent = `You reached level ${gameState.level} with ${gameState.score} points. Not bad! Every programmer learns from mistakes. Want to try again?`;
+                endScreen.style.borderColor = '#ef4444';
+                endScreen.style.background = 'rgba(239, 68, 68, 0.1)';
+            }
+            
+            endScreen.style.display = 'block';
+            
+            // Hide game area
+            document.querySelector('.pattern-section').style.display = 'none';
+            document.querySelector('.answer-section').style.display = 'none';
+            document.getElementById('gameFeedback').style.display = 'none';
+        }
+
+        function resetGame() {
+            // Reset game state
+            gameState = {
+                level: 1,
+                score: 0,
+                lives: 3,
+                currentPattern: null,
+                currentAnswer: null,
+                isGameOver: false
+            };
+            
+            // Hide end screen
+            document.getElementById('gameEndScreen').style.display = 'none';
+            
+            // Show game area
+            document.querySelector('.pattern-section').style.display = 'block';
+            document.querySelector('.answer-section').style.display = 'block';
+            document.getElementById('gameFeedback').style.display = 'flex';
+            
+            // Load first pattern
+            loadPattern();
+        }
+    </script>
+</body>
+</html> 

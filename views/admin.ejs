@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin - Database Users</title>
+    <link rel="stylesheet" href="/css/style.css">
+    <link rel="stylesheet" href="/css/auth.css">
+    <style>
+        .admin-container {
+            max-width: 1200px;
+            margin: 120px auto 40px;
+            padding: 40px;
+            background: rgba(15, 23, 42, 0.9);
+            border-radius: 20px;
+            border: 2px solid rgba(139, 92, 246, 0.3);
+        }
+        
+        .users-table {
+            width: 100%;
+            background: rgba(30, 41, 59, 0.8);
+            border-radius: 10px;
+            overflow: hidden;
+            margin: 20px 0;
+        }
+        
+        .users-table th,
+        .users-table td {
+            padding: 15px;
+            text-align: left;
+            border-bottom: 1px solid rgba(139, 92, 246, 0.2);
+            font-family: 'VT323', monospace;
+            font-size: 16px;
+        }
+        
+        .users-table th {
+            background: rgba(139, 92, 246, 0.2);
+            color: #a855f7;
+            font-weight: bold;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+        
+        .users-table td {
+            color: #cbd5e1;
+        }
+        
+        .provider-badge {
+            padding: 4px 8px;
+            border-radius: 4px;
+            font-size: 12px;
+            text-transform: uppercase;
+            font-weight: bold;
+        }
+        
+        .provider-local {
+            background: rgba(34, 197, 94, 0.2);
+            color: #86efac;
+            border: 1px solid #22c55e;
+        }
+        
+        .provider-google {
+            background: rgba(239, 68, 68, 0.2);
+            color: #fca5a5;
+            border: 1px solid #ef4444;
+        }
+        
+        .provider-github {
+            background: rgba(107, 114, 128, 0.2);
+            color: #d1d5db;
+            border: 1px solid #6b7280;
+        }
+    </style>
+</head>
+<body>
+    <header class="header">
+        <nav class="navbar">
+            <div class="nav-container">
+                <div class="nav-brand">
+                    <span class="brand-icon">🛡️</span>
+                    <span>Codedx Admin</span>
+                </div>
+                <div class="nav-actions">
+                    <a href="/" class="btn-secondary">
+                        <span>🏠</span>
+                        <span>Home</span>
+                    </a>
+                </div>
+            </div>
+        </nav>
+    </header>
+
+    <div class="admin-container">
+        <h1 style="font-family: 'Press Start 2P', monospace; color: #a855f7; font-size: 2rem; margin-bottom: 20px; text-align: center;">
+            DATABASE USERS 📊
+        </h1>
+        
+        <div style="text-align: center; margin-bottom: 30px;">
+            <p style="font-family: 'VT323', monospace; color: #cbd5e1; font-size: 18px;">
+                Total Users: <span style="color: #fbbf24; font-weight: bold;"><%= userCount %></span>
+            </p>
+            <p style="font-family: 'VT323', monospace; color: #94a3b8; font-size: 14px;">
+                Database: codedx | Collection: users
+            </p>
+        </div>
+
+        <% if (users && users.length > 0) { %>
+            <table class="users-table">
+                <thead>
+                    <tr>
+                        <th>ID</th>
+                        <th>Name</th>
+                        <th>Email</th>
+                        <th>Provider</th>
+                        <th>Created</th>
+                        <th>Last Login</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <% users.forEach(user => { %>
+                        <tr>
+                            <td style="font-size: 12px;"><%= user._id %></td>
+                            <td><%= user.name %></td>
+                            <td><%= user.email %></td>
+                            <td>
+                                <span class="provider-badge provider-<%= user.provider %>">
+                                    <%= user.provider %>
+                                </span>
+                            </td>
+                            <td><%= new Date(user.createdAt).toLocaleDateString() %></td>
+                            <td><%= new Date(user.lastLogin).toLocaleDateString() %></td>
+                        </tr>
+                    <% }) %>
+                </tbody>
+            </table>
+        <% } else { %>
+            <div style="text-align: center; padding: 40px;">
+                <p style="font-family: 'Press Start 2P', monospace; color: #94a3b8; font-size: 18px;">
+                    NO USERS FOUND 😕
+                </p>
+                <p style="font-family: 'VT323', monospace; color: #64748b; font-size: 16px; margin-top: 20px;">
+                    Try creating a user account first!
+                </p>
+            </div>
+        <% } %>
+        
+        <div style="text-align: center; margin-top: 40px;">
+            <a href="/auth/signup" class="btn-primary">
+                <span>⚔️</span>
+                <span>Create Test User</span>
+            </a>
+            <a href="/auth/test-db" class="btn-secondary" style="margin-left: 15px;">
+                <span>🔍</span>
+                <span>JSON Data</span>
+            </a>
+        </div>
+    </div>
+</body>
+</html> 

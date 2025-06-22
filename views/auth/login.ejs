@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title><%= title %></title>
+    <link rel="stylesheet" href="/css/style.css">
+    <link rel="stylesheet" href="/css/auth.css">
+    <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&family=VT323:wght@400&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+</head>
+<body class="auth-body">
+    <!-- Header -->
+    <header class="header">
+        <nav class="navbar">
+            <div class="nav-container">
+                <div class="nav-brand">
+                    <span class="brand-icon">🛡️</span>
+                    <a href="/" style="text-decoration: none; color: inherit;">Codedx</a>
+                </div>
+                
+                <div class="nav-actions">
+                    <a href="/auth/signup" class="btn-primary">
+                        <span>⚔️</span>
+                        <span>Sign Up</span>
+                    </a>
+                </div>
+            </div>
+        </nav>
+    </header>
+
+    <!-- Login Section -->
+    <section class="auth-section">
+        <div class="container">
+            <div class="auth-container">
+                <div class="auth-header">
+                    <h1 class="auth-title">Welcome Back</h1>
+                    <p class="auth-subtitle">Continue your coding journey</p>
+                </div>
+
+                <!-- Flash Messages -->
+                <% if (typeof error !== 'undefined' && error.length > 0) { %>
+                    <div class="flash-message error">
+                        <i class="fas fa-exclamation-circle"></i>
+                        <%= error %>
+                    </div>
+                <% } %>
+
+                <% if (typeof success !== 'undefined' && success.length > 0) { %>
+                    <div class="flash-message success">
+                        <i class="fas fa-check-circle"></i>
+                        <%= success %>
+                    </div>
+                <% } %>
+
+                <!-- OAuth Buttons -->
+                <div class="oauth-section">
+                    <a href="/auth/google" class="oauth-btn google-btn">
+                        <span class="oauth-icon">🔍</span>
+                        <span>Continue with Google</span>
+                    </a>
+                    
+                    <a href="/auth/github" class="oauth-btn github-btn">
+                        <span class="oauth-icon">🐙</span>
+                        <span>Continue with GitHub</span>
+                    </a>
+                </div>
+
+                <!-- Divider -->
+                <div class="divider">
+                    <span class="divider-text">or sign in with email</span>
+                </div>
+
+                <!-- Login Form -->
+                <form action="/auth/login" method="POST" class="auth-form">
+                    <div class="form-group">
+                        <label for="email" class="form-label">
+                            <i class="fas fa-envelope"></i>
+                            Email Address
+                        </label>
+                        <input 
+                            type="email" 
+                            id="email" 
+                            name="email" 
+                            class="form-input" 
+                            placeholder="Enter your email"
+                            required
+                        >
+                    </div>
+
+                    <div class="form-group">
+                        <label for="password" class="form-label">
+                            <i class="fas fa-lock"></i>
+                            Password
+                        </label>
+                        <input 
+                            type="password" 
+                            id="password" 
+                            name="password" 
+                            class="form-input" 
+                            placeholder="Enter your password"
+                            required
+                        >
+                    </div>
+
+                    <button type="submit" class="btn-primary auth-submit">
+                        <span class="quest-icon">🗝️</span>
+                        <span>Sign In</span>
+                    </button>
+                </form>
+
+                <!-- Sign Up Link -->
+                <div class="auth-footer">
+                    <p class="auth-switch">
+                        Don't have an account? 
+                        <a href="/auth/signup" class="auth-link">Sign Up</a>
+                    </p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <script src="/js/script.js"></script>
+    <script>
+        // Auto-hide flash messages
+        setTimeout(() => {
+            const flashMessages = document.querySelectorAll('.flash-message');
+            flashMessages.forEach(msg => {
+                msg.style.opacity = '0';
+                setTimeout(() => msg.remove(), 300);
+            });
+        }, 5000);
+    </script>
+</body>
+</html> 

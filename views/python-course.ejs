@@ -1,0 +1,581 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title><%= title %></title>
+    <link rel="stylesheet" href="/css/style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&family=VT323:wght@400&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+</head>
+<body style="background: #0f1419; color: #fff; font-family: 'VT323', monospace;">
+    
+    <!-- Header -->
+    <header class="header">
+        <nav class="navbar">
+            <div class="nav-container">
+                <div class="nav-brand">
+                    <span class="brand-icon">🛡️</span>
+                    <a href="/" style="text-decoration: none; color: inherit;">Codedx</a>
+                </div>
+                
+                <ul class="nav-menu">
+                    <li class="nav-item">
+                        <a href="/courses" class="nav-link">Courses</a>
+                    </li>
+                </ul>
+                
+                <div class="nav-actions">
+                    <% if (typeof isAuthenticated !== 'undefined' && isAuthenticated) { %>
+                        <div class="user-menu">
+                            <span class="user-avatar">
+                                <% if (user.avatar) { %>
+                                    <img src="<%= user.avatar %>" alt="<%= user.name %>" class="avatar-img">
+                                <% } else { %>
+                                    <i class="fas fa-user-circle"></i>
+                                <% } %>
+                            </span>
+                            <span class="user-name"><%= user.name %></span>
+                        </div>
+                        <a href="/auth/dashboard" class="btn-secondary">
+                            <span>🎮</span>
+                            <span>Dashboard</span>
+                        </a>
+                        <a href="/auth/logout" class="btn-secondary">
+                            <span>🚪</span>
+                            <span>Logout</span>
+                        </a>
+                    <% } else { %>
+                        <a href="/auth/login" class="btn-settings">
+                            <i class="fas fa-sign-in-alt"></i>
+                            <span>Login</span>
+                        </a>
+                        <a href="/auth/signup" class="btn-signup">
+                            <span class="quest-icon">🗺️</span>
+                            <span>Sign up</span>
+                        </a>
+                    <% } %>
+                </div>
+                
+                <div class="hamburger">
+                    <span></span>
+                    <span></span>
+                    <span></span>
+                </div>
+            </div>
+        </nav>
+    </header>
+
+    <!-- Flash Messages -->
+    <% if (typeof success !== 'undefined' && success.length > 0) { %>
+        <div class="flash-message success" style="position: fixed; top: 100px; right: 20px; z-index: 1000; background: rgba(139, 92, 246, 0.9); color: white; padding: 15px 20px; border-radius: 8px; border: 2px solid #8b5cf6; font-family: 'VT323', monospace; font-size: 16px; text-transform: uppercase; letter-spacing: 1px; display: flex; align-items: center; gap: 10px; animation: slideIn 0.5s ease-out;">
+            <i class="fas fa-check-circle"></i>
+            <%= success %>
+        </div>
+    <% } %>
+
+    <% if (typeof error !== 'undefined' && error.length > 0) { %>
+        <div class="flash-message error" style="position: fixed; top: 100px; right: 20px; z-index: 1000; background: rgba(239, 68, 68, 0.9); color: white; padding: 15px 20px; border-radius: 8px; border: 2px solid #ef4444; font-family: 'VT323', monospace; font-size: 16px; text-transform: uppercase; letter-spacing: 1px; display: flex; align-items: center; gap: 10px; animation: slideIn 0.5s ease-out;">
+            <i class="fas fa-exclamation-circle"></i>
+            <%= error %>
+        </div>
+    <% } %>
+    
+    <!-- Hero Section -->
+    <section class="course-hero" style="padding: 60px 0; margin-top: 70px;">
+        <!-- Decorative Elements -->
+        <div style="position: absolute; top: 30px; right: 30px; width: 40px; height: 40px; background: #4c1d95; border-radius: 50%; opacity: 0.3;"></div>
+        <div style="position: absolute; bottom: 40px; left: 50%; transform: translateX(-50%); width: 60px; height: 60px; background: #fbbf24; border-radius: 50%; opacity: 0.8;"></div>
+        <div style="position: absolute; bottom: 20px; left: 20px; right: 20px; height: 8px; background: #4c1d95; border-radius: 4px; opacity: 0.4;"></div>
+        
+        <div class="container" style="max-width: 1200px; margin: 0 auto; padding: 0 20px; position: relative; z-index: 2;">
+            <!-- Navigation -->
+            <div style="margin-bottom: 30px;">
+                <a href="/" style="color: white; text-decoration: none; opacity: 0.8; font-size: 14px; font-family: 'VT323', monospace; text-transform: uppercase; letter-spacing: 1px;">← Back to Home</a>
+            </div>
+            
+            <!-- Breadcrumb -->
+            <div style="margin-bottom: 20px;">
+                <span class="course-badge">
+                    BEGINNER • COURSE • 10 CHAPTERS
+                </span>
+            </div>
+            
+            <div style="display: flex; align-items: center; gap: 20px; margin-bottom: 30px;">
+                <div class="course-icon">
+                    <span style="color: white; font-size: 36px;">🐍</span>
+                </div>
+                <div>
+                    <h1 class="course-title">Python Fundamentals</h1>
+                    <p class="course-description">
+                        Master programming fundamentals with Python - from basics to advanced concepts. 50+ hands-on exercises await!
+                    </p>
+                </div>
+            </div>
+            
+            <div style="display: flex; gap: 20px; align-items: center; flex-wrap: wrap;">
+                <a href="/courses/python/lesson/1/1" class="btn-signup" style="font-family: 'Press Start 2P', monospace; font-size: 16px; padding: 16px 32px; text-transform: uppercase; letter-spacing: 1px; display: inline-flex; align-items: center; gap: 12px; text-decoration: none;">
+                    <span class="quest-icon">🚀</span>
+                    <span>Start Learning</span>
+                </a>
+                <div class="course-stats">
+                    <span><i class="fas fa-clock"></i> ~8 hours</span>
+                    <span><i class="fas fa-book"></i> 50+ exercises</span>
+                    <span><i class="fas fa-trophy"></i> Certificate</span>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Course Content -->
+    <section style="padding: 60px 0;">
+        <div class="container" style="max-width: 1200px; margin: 0 auto; padding: 0 20px;">
+            <div style="display: grid; grid-template-columns: 2fr 1fr; gap: 40px;">
+                
+                <!-- Course Curriculum -->
+                <div>
+                    <h2 style="font-size: 2rem; margin-bottom: 30px; color: #fff;">Course Curriculum</h2>
+                    
+                    <!-- Chapter 1: Hello World -->
+                    <div class="chapter" style="background: #1a1a2e; border-radius: 12px; margin-bottom: 20px; overflow: hidden; border-left: 4px solid #8b5cf6;">
+                        <div class="chapter-header" style="padding: 20px; background: #2a2a3e; cursor: pointer; display: flex; align-items: center; justify-content: space-between;">
+                            <div style="display: flex; align-items: center; gap: 15px;">
+                                <div style="width: 40px; height: 40px; background: #8b5cf6; border-radius: 8px; display: flex; align-items: center; justify-content: center; color: #000; font-weight: bold;">1</div>
+                                <div>
+                                    <h3 style="margin: 0; color: #fff; font-size: 1.3rem;">Hello World & Setup</h3>
+                                    <p style="margin: 4px 0 0 0; color: #8b5cf6; font-size: 14px;">✓ UNLOCKED • 5 exercises • ~30 min</p>
+                                </div>
+                            </div>
+                            <i class="fas fa-chevron-down" style="color: #8b5cf6;"></i>
+                        </div>
+                        
+                        <div class="chapter-content" style="padding: 0 20px 20px 20px;">
+                            <div class="lesson" style="display: flex; align-items: center; justify-content: space-between; padding: 12px 0; border-bottom: 1px solid #333;">
+                                <div style="display: flex; align-items: center; gap: 12px;">
+                                    <span style="color: #8b5cf6;">Exercise 1</span>
+                                    <span style="color: #ccc;">Setting Up Python</span>
+                                </div>
+                                <a href="/courses/python/lesson/1/1" class="lesson-btn" data-chapter="1" data-lesson="1" style="padding: 8px 16px; font-size: 12px; font-family: 'Press Start 2P', monospace; text-transform: uppercase;">Start</a>
+                            </div>
+                            
+                            <div class="lesson" style="display: flex; align-items: center; justify-content: space-between; padding: 12px 0; border-bottom: 1px solid #333;">
+                                <div style="display: flex; align-items: center; gap: 12px;">
+                                    <span style="color: #8b5cf6;">Exercise 2</span>
+                                    <span style="color: #ccc;">Your First Python Program</span>
+                                </div>
+                                <a href="/courses/python/lesson/1/2" class="btn-secondary" style="padding: 8px 16px; font-size: 12px; font-family: 'Press Start 2P', monospace; text-transform: uppercase;">Start</a>
+                            </div>
+                            
+                            <div class="lesson" style="display: flex; align-items: center; justify-content: space-between; padding: 12px 0; border-bottom: 1px solid #333;">
+                                <div style="display: flex; align-items: center; gap: 12px;">
+                                    <span style="color: #8b5cf6;">Exercise 3</span>
+                                    <span style="color: #ccc;">Understanding the Console</span>
+                                </div>
+                                <a href="/courses/python/lesson/1/3" class="btn-secondary" style="padding: 8px 16px; font-size: 12px; font-family: 'Press Start 2P', monospace; text-transform: uppercase;">Start</a>
+                            </div>
+                            
+                            <div class="lesson" style="display: flex; align-items: center; justify-content: space-between; padding: 12px 0; border-bottom: 1px solid #333;">
+                                <div style="display: flex; align-items: center; gap: 12px;">
+                                    <span style="color: #8b5cf6;">Exercise 4</span>
+                                    <span style="color: #ccc;">Comments in Python</span>
+                                </div>
+                                <a href="/courses/python/lesson/1/4" class="btn-secondary" style="padding: 8px 16px; font-size: 12px; font-family: 'Press Start 2P', monospace; text-transform: uppercase;">Start</a>
+                            </div>
+                            
+                            <div class="lesson" style="display: flex; align-items: center; justify-content: space-between; padding: 12px 0;">
+                                <div style="display: flex; align-items: center; gap: 12px;">
+                                    <span style="color: #8b5cf6;">Exercise 5</span>
+                                    <span style="color: #ccc;">Python Syntax Rules</span>
+                                </div>
+                                <a href="/courses/python/lesson/1/5" class="btn-secondary" style="padding: 8px 16px; font-size: 12px; font-family: 'Press Start 2P', monospace; text-transform: uppercase;">Start</a>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Chapter 2: Variables & Data Types -->
+                    <div class="chapter" style="background: #1a1a2e; border-radius: 12px; margin-bottom: 20px; overflow: hidden; border-left: 4px solid #8b5cf6;">
+                        <div class="chapter-header" style="padding: 20px; background: #2a2a3e; cursor: pointer; display: flex; align-items: center; justify-content: space-between;">
+                            <div style="display: flex; align-items: center; gap: 15px;">
+                                <div style="width: 40px; height: 40px; background: #8b5cf6; border-radius: 8px; display: flex; align-items: center; justify-content: center; color: #000; font-weight: bold;">2</div>
+                                <div>
+                                    <h3 style="margin: 0; color: #fff; font-size: 1.3rem;">Variables & Data Types</h3>
+                                    <p style="margin: 4px 0 0 0; color: #8b5cf6; font-size: 14px;">✓ UNLOCKED • 6 exercises • ~45 min</p>
+                                </div>
+                            </div>
+                            <i class="fas fa-chevron-down" style="color: #8b5cf6;"></i>
+                        </div>
+                        
+                        <div class="chapter-content" style="padding: 0 20px 20px 20px;">
+                            <div class="lesson" style="display: flex; align-items: center; justify-content: space-between; padding: 12px 0; border-bottom: 1px solid #333;">
+                                <div style="display: flex; align-items: center; gap: 12px;">
+                                    <span style="color: #8b5cf6;">Exercise 1</span>
+                                    <span style="color: #ccc;">Creating Variables</span>
+                                </div>
+                                <a href="/courses/python/lesson/2/1" class="btn-secondary" style="padding: 8px 16px; font-size: 12px; font-family: 'Press Start 2P', monospace; text-transform: uppercase;">Start</a>
+                            </div>
+                            
+                            <div class="lesson" style="display: flex; align-items: center; justify-content: space-between; padding: 12px 0; border-bottom: 1px solid #333;">
+                                <div style="display: flex; align-items: center; gap: 12px;">
+                                    <span style="color: #8b5cf6;">Exercise 2</span>
+                                    <span style="color: #ccc;">Data Types</span>
+                                </div>
+                                <a href="/courses/python/lesson/2/2" class="btn-secondary" style="padding: 8px 16px; font-size: 12px; font-family: 'Press Start 2P', monospace; text-transform: uppercase;">Start</a>
+                            </div>
+                            
+                            <div class="lesson" style="display: flex; align-items: center; justify-content: space-between; padding: 12px 0; border-bottom: 1px solid #333;">
+                                <div style="display: flex; align-items: center; gap: 12px;">
+                                    <span style="color: #8b5cf6;">Exercise 3</span>
+                                    <span style="color: #ccc;">Variable Names</span>
+                                </div>
+                                <a href="/courses/python/lesson/2/3" class="btn-secondary" style="padding: 8px 16px; font-size: 12px; font-family: 'Press Start 2P', monospace; text-transform: uppercase;">Start</a>
+                            </div>
+                            
+                            <div class="lesson" style="display: flex; align-items: center; justify-content: space-between; padding: 12px 0; border-bottom: 1px solid #333;">
+                                <div style="display: flex; align-items: center; gap: 12px;">
+                                    <span style="color: #8b5cf6;">Exercise 4</span>
+                                    <span style="color: #ccc;">Type Conversion</span>
+                                </div>
+                                <a href="/courses/python/lesson/2/4" class="btn-secondary" style="padding: 8px 16px; font-size: 12px; font-family: 'Press Start 2P', monospace; text-transform: uppercase;">Start</a>
+                            </div>
+                            
+                            <div class="lesson" style="display: flex; align-items: center; justify-content: space-between; padding: 12px 0; border-bottom: 1px solid #333;">
+                                <div style="display: flex; align-items: center; gap: 12px;">
+                                    <span style="color: #8b5cf6;">Exercise 5</span>
+                                    <span style="color: #ccc;">Multiple Variables</span>
+                                </div>
+                                <a href="/courses/python/lesson/2/5" class="btn-secondary" style="padding: 8px 16px; font-size: 12px; font-family: 'Press Start 2P', monospace; text-transform: uppercase;">Start</a>
+                            </div>
+                            
+                            <div class="lesson" style="display: flex; align-items: center; justify-content: space-between; padding: 12px 0;">
+                                <div style="display: flex; align-items: center; gap: 12px;">
+                                    <span style="color: #8b5cf6;">Exercise 6</span>
+                                    <span style="color: #ccc;">Constants</span>
+                                </div>
+                                <a href="/courses/python/lesson/2/6" class="btn-secondary" style="padding: 8px 16px; font-size: 12px; font-family: 'Press Start 2P', monospace; text-transform: uppercase;">Start</a>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Chapter 3: Numbers & Math -->
+                    <div class="chapter" style="background: #1a1a2e; border-radius: 12px; margin-bottom: 20px; overflow: hidden; border-left: 4px solid #8b5cf6;">
+                        <div class="chapter-header" style="padding: 20px; background: #2a2a3e; cursor: pointer; display: flex; align-items: center; justify-content: space-between;">
+                            <div style="display: flex; align-items: center; gap: 15px;">
+                                <div style="width: 40px; height: 40px; background: #8b5cf6; border-radius: 8px; display: flex; align-items: center; justify-content: center; color: #000; font-weight: bold;">3</div>
+                                <div>
+                                    <h3 style="margin: 0; color: #fff; font-size: 1.3rem;">Numbers & Math Operations</h3>
+                                    <p style="margin: 4px 0 0 0; color: #8b5cf6; font-size: 14px;">✓ UNLOCKED • 5 exercises • ~40 min</p>
+                                </div>
+                            </div>
+                            <i class="fas fa-chevron-down" style="color: #8b5cf6;"></i>
+                        </div>
+                        
+                        <div class="chapter-content" style="padding: 0 20px 20px 20px;">
+                            <div class="lesson" style="display: flex; align-items: center; justify-content: space-between; padding: 12px 0; border-bottom: 1px solid #333;">
+                                <div style="display: flex; align-items: center; gap: 12px;">
+                                    <span style="color: #8b5cf6;">Exercise 1</span>
+                                    <span style="color: #ccc;">Basic Math Operations</span>
+                                </div>
+                                <a href="/courses/python/lesson/3/1" class="btn-secondary" style="padding: 8px 16px; font-size: 12px; font-family: 'Press Start 2P', monospace; text-transform: uppercase;">Start</a>
+                            </div>
+                            
+                            <div class="lesson" style="display: flex; align-items: center; justify-content: space-between; padding: 12px 0; border-bottom: 1px solid #333;">
+                                <div style="display: flex; align-items: center; gap: 12px;">
+                                    <span style="color: #8b5cf6;">Exercise 2</span>
+                                    <span style="color: #ccc;">Order of Operations</span>
+                                </div>
+                                <a href="/courses/python/lesson/3/2" class="btn-secondary" style="padding: 8px 16px; font-size: 12px; font-family: 'Press Start 2P', monospace; text-transform: uppercase;">Start</a>
+                            </div>
+                            
+                            <div class="lesson" style="display: flex; align-items: center; justify-content: space-between; padding: 12px 0; border-bottom: 1px solid #333;">
+                                <div style="display: flex; align-items: center; gap: 12px;">
+                                    <span style="color: #8b5cf6;">Exercise 3</span>
+                                    <span style="color: #ccc;">Math Functions</span>
+                                </div>
+                                <a href="/courses/python/lesson/3/3" class="btn-secondary" style="padding: 8px 16px; font-size: 12px; font-family: 'Press Start 2P', monospace; text-transform: uppercase;">Start</a>
+                            </div>
+                            
+                            <div class="lesson" style="display: flex; align-items: center; justify-content: space-between; padding: 12px 0; border-bottom: 1px solid #333;">
+                                <div style="display: flex; align-items: center; gap: 12px;">
+                                    <span style="color: #8b5cf6;">Exercise 4</span>
+                                    <span style="color: #ccc;">Random Numbers</span>
+                                </div>
+                                <a href="/courses/python/lesson/3/4" class="btn-secondary" style="padding: 8px 16px; font-size: 12px; font-family: 'Press Start 2P', monospace; text-transform: uppercase;">Start</a>
+                            </div>
+                            
+                            <div class="lesson" style="display: flex; align-items: center; justify-content: space-between; padding: 12px 0;">
+                                <div style="display: flex; align-items: center; gap: 12px;">
+                                    <span style="color: #8b5cf6;">Exercise 5</span>
+                                    <span style="color: #ccc;">Calculator Project</span>
+                                </div>
+                                <a href="/courses/python/lesson/3/5" class="btn-secondary" style="padding: 8px 16px; font-size: 12px; font-family: 'Press Start 2P', monospace; text-transform: uppercase;">Start</a>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Chapter 4: Strings -->
+                    <div class="chapter" style="background: #1a1a2e; border-radius: 12px; margin-bottom: 20px; overflow: hidden; border-left: 4px solid #8b5cf6;">
+                        <div class="chapter-header" style="padding: 20px; background: #2a2a3e; cursor: pointer; display: flex; align-items: center; justify-content: space-between;">
+                            <div style="display: flex; align-items: center; gap: 15px;">
+                                <div style="width: 40px; height: 40px; background: #8b5cf6; border-radius: 8px; display: flex; align-items: center; justify-content: center; color: #000; font-weight: bold;">4</div>
+                                <div>
+                                    <h3 style="margin: 0; color: #fff; font-size: 1.3rem;">Strings & Text</h3>
+                                    <p style="margin: 4px 0 0 0; color: #8b5cf6; font-size: 14px;">✓ UNLOCKED • 6 exercises • ~50 min</p>
+                                </div>
+                            </div>
+                            <i class="fas fa-chevron-down" style="color: #8b5cf6;"></i>
+                        </div>
+                    </div>
+
+                    <!-- Chapter 5: Input & Output -->
+                    <div class="chapter" style="background: #1a1a2e; border-radius: 12px; margin-bottom: 20px; overflow: hidden; border-left: 4px solid #8b5cf6;">
+                        <div class="chapter-header" style="padding: 20px; background: #2a2a3e; cursor: pointer; display: flex; align-items: center; justify-content: space-between;">
+                            <div style="display: flex; align-items: center; gap: 15px;">
+                                <div style="width: 40px; height: 40px; background: #8b5cf6; border-radius: 8px; display: flex; align-items: center; justify-content: center; color: #000; font-weight: bold;">5</div>
+                                <div>
+                                    <h3 style="margin: 0; color: #fff; font-size: 1.3rem;">Input & Output</h3>
+                                    <p style="margin: 4px 0 0 0; color: #8b5cf6; font-size: 14px;">✓ UNLOCKED • 4 exercises • ~35 min</p>
+                                </div>
+                            </div>
+                            <i class="fas fa-chevron-down" style="color: #8b5cf6;"></i>
+                        </div>
+                    </div>
+
+                    <!-- Chapter 6: Conditions -->
+                    <div class="chapter" style="background: #1a1a2e; border-radius: 12px; margin-bottom: 20px; overflow: hidden; border-left: 4px solid #8b5cf6;">
+                        <div class="chapter-header" style="padding: 20px; background: #2a2a3e; cursor: pointer; display: flex; align-items: center; justify-content: space-between;">
+                            <div style="display: flex; align-items: center; gap: 15px;">
+                                <div style="width: 40px; height: 40px; background: #8b5cf6; border-radius: 8px; display: flex; align-items: center; justify-content: center; color: #000; font-weight: bold;">6</div>
+                                <div>
+                                    <h3 style="margin: 0; color: #fff; font-size: 1.3rem;">Conditions & If Statements</h3>
+                                    <p style="margin: 4px 0 0 0; color: #8b5cf6; font-size: 14px;">✓ UNLOCKED • 7 exercises • ~60 min</p>
+                                </div>
+                            </div>
+                            <i class="fas fa-chevron-down" style="color: #8b5cf6;"></i>
+                        </div>
+                    </div>
+
+                    <!-- Chapter 7: Loops -->
+                    <div class="chapter" style="background: #1a1a2e; border-radius: 12px; margin-bottom: 20px; overflow: hidden; border-left: 4px solid #8b5cf6;">
+                        <div class="chapter-header" style="padding: 20px; background: #2a2a3e; cursor: pointer; display: flex; align-items: center; justify-content: space-between;">
+                            <div style="display: flex; align-items: center; gap: 15px;">
+                                <div style="width: 40px; height: 40px; background: #8b5cf6; border-radius: 8px; display: flex; align-items: center; justify-content: center; color: #000; font-weight: bold;">7</div>
+                                <div>
+                                    <h3 style="margin: 0; color: #fff; font-size: 1.3rem;">Loops & Repetition</h3>
+                                    <p style="margin: 4px 0 0 0; color: #8b5cf6; font-size: 14px;">✓ UNLOCKED • 6 exercises • ~55 min</p>
+                                </div>
+                            </div>
+                            <i class="fas fa-chevron-down" style="color: #8b5cf6;"></i>
+                        </div>
+                    </div>
+
+                    <!-- Chapter 8: Lists -->
+                    <div class="chapter" style="background: #1a1a2e; border-radius: 12px; margin-bottom: 20px; overflow: hidden; border-left: 4px solid #8b5cf6;">
+                        <div class="chapter-header" style="padding: 20px; background: #2a2a3e; cursor: pointer; display: flex; align-items: center; justify-content: space-between;">
+                            <div style="display: flex; align-items: center; gap: 15px;">
+                                <div style="width: 40px; height: 40px; background: #8b5cf6; border-radius: 8px; display: flex; align-items: center; justify-content: center; color: #000; font-weight: bold;">8</div>
+                                <div>
+                                    <h3 style="margin: 0; color: #fff; font-size: 1.3rem;">Lists & Collections</h3>
+                                    <p style="margin: 4px 0 0 0; color: #8b5cf6; font-size: 14px;">✓ UNLOCKED • 5 exercises • ~45 min</p>
+                                </div>
+                            </div>
+                            <i class="fas fa-chevron-down" style="color: #8b5cf6;"></i>
+                        </div>
+                    </div>
+
+                    <!-- Chapter 9: Functions -->
+                    <div class="chapter" style="background: #1a1a2e; border-radius: 12px; margin-bottom: 20px; overflow: hidden; border-left: 4px solid #8b5cf6;">
+                        <div class="chapter-header" style="padding: 20px; background: #2a2a3e; cursor: pointer; display: flex; align-items: center; justify-content: space-between;">
+                            <div style="display: flex; align-items: center; gap: 15px;">
+                                <div style="width: 40px; height: 40px; background: #8b5cf6; border-radius: 8px; display: flex; align-items: center; justify-content: center; color: #000; font-weight: bold;">9</div>
+                                <div>
+                                    <h3 style="margin: 0; color: #fff; font-size: 1.3rem;">Functions & Code Reuse</h3>
+                                    <p style="margin: 4px 0 0 0; color: #8b5cf6; font-size: 14px;">✓ UNLOCKED • 6 exercises • ~50 min</p>
+                                </div>
+                            </div>
+                            <i class="fas fa-chevron-down" style="color: #8b5cf6;"></i>
+                        </div>
+                    </div>
+
+                    <!-- Chapter 10: Final Project -->
+                    <div class="chapter" style="background: #1a1a2e; border-radius: 12px; margin-bottom: 20px; overflow: hidden; border-left: 4px solid #8b5cf6;">
+                        <div class="chapter-header" style="padding: 20px; background: #2a2a3e; cursor: pointer; display: flex; align-items: center; justify-content: space-between;">
+                            <div style="display: flex; align-items: center; gap: 15px;">
+                                <div style="width: 40px; height: 40px; background: #8b5cf6; border-radius: 8px; display: flex; align-items: center; justify-content: center; color: #000; font-weight: bold;">10</div>
+                                <div>
+                                    <h3 style="margin: 0; color: #fff; font-size: 1.3rem;">Final Project & Certificate</h3>
+                                    <p style="margin: 4px 0 0 0; color: #8b5cf6; font-size: 14px;">✓ UNLOCKED • 1 project • ~90 min</p>
+                                </div>
+                            </div>
+                            <i class="fas fa-trophy" style="color: #8b5cf6;"></i>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Sidebar -->
+                <div>
+                    <!-- User Progress -->
+                    <div style="background: #1a1a2e; border-radius: 12px; padding: 24px; margin-bottom: 30px;">
+                        <div style="display: flex; align-items: center; gap: 12px; margin-bottom: 20px;">
+                            <% if (typeof isAuthenticated !== 'undefined' && isAuthenticated) { %>
+                                <div style="width: 40px; height: 40px; background: #8b5cf6; border-radius: 50%; display: flex; align-items: center; justify-content: center;">
+                                    <span style="font-weight: bold; color: #000;"><%= user.name.charAt(0).toUpperCase() %></span>
+                                </div>
+                                <span style="font-weight: 600; color: #fff;"><%= user.name %></span>
+                            <% } else { %>
+                                <div style="width: 40px; height: 40px; background: #666; border-radius: 50%; display: flex; align-items: center; justify-content: center;">
+                                    <i class="fas fa-user" style="color: #ccc;"></i>
+                                </div>
+                                <span style="font-weight: 600; color: #ccc;">Guest User</span>
+                            <% } %>
+                        </div>
+                        
+                        <h4 style="color: #fff; margin-bottom: 16px;">Course Progress</h4>
+                        <div style="background: #333; border-radius: 8px; height: 8px; margin-bottom: 12px;">
+                            <div style="background: #8b5cf6; height: 100%; width: 0%; border-radius: 8px;"></div>
+                        </div>
+                        <div style="display: flex; justify-content: space-between; color: #888; font-size: 14px; margin-bottom: 20px;">
+                            <span>Exercises Completed</span>
+                            <span>0/50</span>
+                        </div>
+                        
+                        <div style="display: flex; justify-content: space-between; color: #888; font-size: 14px; margin-bottom: 8px;">
+                            <span>XP Earned</span>
+                            <span style="color: #fbbf24; font-weight: bold;">0 XP</span>
+                        </div>
+                        
+                        <div style="display: flex; justify-content: space-between; color: #888; font-size: 14px;">
+                            <span>Time Spent</span>
+                            <span>0 min</span>
+                        </div>
+                    </div>
+
+                    <!-- Course Stats -->
+                    <div style="background: #1a1a2e; border-radius: 12px; padding: 24px; margin-bottom: 30px;">
+                        <h4 style="color: #fff; margin-bottom: 16px;">Course Stats</h4>
+                        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 16px;">
+                            <div style="text-align: center;">
+                                <div style="font-size: 2rem; color: #8b5cf6; font-weight: bold;">10</div>
+                                <div style="color: #888; font-size: 14px;">Chapters</div>
+                            </div>
+                            <div style="text-align: center;">
+                                <div style="font-size: 2rem; color: #fbbf24; font-weight: bold;">50</div>
+                                <div style="color: #888; font-size: 14px;">Exercises</div>
+                            </div>
+                            <div style="text-align: center;">
+                                <div style="font-size: 2rem; color: #8b5cf6; font-weight: bold;">8h</div>
+                                <div style="color: #888; font-size: 14px;">Duration</div>
+                            </div>
+                            <div style="text-align: center;">
+                                <div style="font-size: 2rem; color: #f59e0b; font-weight: bold;">🏆</div>
+                                <div style="color: #888; font-size: 14px;">Certificate</div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Course Badges -->
+                    <div style="background: #1a1a2e; border-radius: 12px; padding: 24px;">
+                        <h4 style="color: #fff; margin-bottom: 16px;">Achievement Badges</h4>
+                        <div style="display: grid; grid-template-columns: repeat(4, 1fr); gap: 12px; margin-bottom: 16px;">
+                            <div style="width: 40px; height: 40px; background: #333; border-radius: 8px; display: flex; align-items: center; justify-content: center;" title="First Steps">
+                                <span style="color: #666;">🚀</span>
+                            </div>
+                            <div style="width: 40px; height: 40px; background: #333; border-radius: 8px; display: flex; align-items: center; justify-content: center;" title="Problem Solver">
+                                <span style="color: #666;">🧩</span>
+                            </div>
+                            <div style="width: 40px; height: 40px; background: #333; border-radius: 8px; display: flex; align-items: center; justify-content: center;" title="Speed Runner">
+                                <span style="color: #666;">⚡</span>
+                            </div>
+                            <div style="width: 40px; height: 40px; background: #333; border-radius: 8px; display: flex; align-items: center; justify-content: center;" title="Master Coder">
+                                <span style="color: #666;">👑</span>
+                            </div>
+                        </div>
+                        <p style="color: #888; font-size: 14px; margin: 0;">Complete exercises to unlock achievements!</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <script>
+        // Chapter toggle functionality
+        document.querySelectorAll('.chapter-header').forEach(header => {
+            header.addEventListener('click', function() {
+                const content = this.nextElementSibling;
+                const icon = this.querySelector('.fas');
+                
+                if (content.style.display === 'none') {
+                    content.style.display = 'block';
+                    icon.classList.remove('fa-chevron-down');
+                    icon.classList.add('fa-chevron-up');
+                } else {
+                    content.style.display = 'none';
+                    icon.classList.remove('fa-chevron-up');
+                    icon.classList.add('fa-chevron-down');
+                }
+            });
+        });
+    </script>
+    <script>
+        // Load and display lesson completion status
+        document.addEventListener('DOMContentLoaded', async function() {
+            try {
+                const response = await fetch('/api/progress/stats');
+                const progress = await response.json();
+                
+                if (progress && progress.completedLessons) {
+                    // Update lesson buttons based on completion status
+                    const lessonButtons = document.querySelectorAll('.lesson-btn');
+                    
+                    // Get completed lessons from progress
+                    const completedLessons = progress.courses?.python?.completedLessons || [];
+                    
+                    lessonButtons.forEach(btn => {
+                        const chapter = parseInt(btn.dataset.chapter);
+                        const lesson = parseInt(btn.dataset.lesson);
+                        
+                        const isCompleted = completedLessons.some(l => l.chapter === chapter && l.lesson === lesson);
+                        
+                        if (isCompleted) {
+                            btn.innerHTML = '✅ Completed';
+                            btn.style.background = 'linear-gradient(135deg, #10b981 0%, #059669 100%)';
+                            btn.style.color = 'white';
+                        } else {
+                            btn.classList.add('btn-secondary');
+                        }
+                    });
+                    
+                    // Update overall progress display
+                    updateProgressDisplay(progress);
+                }
+            } catch (error) {
+                console.error('Error loading progress:', error);
+            }
+        });
+        
+        function updateProgressDisplay(progress) {
+            // Update progress bar if exists
+            const progressBar = document.querySelector('.progress-bar');
+            if (progressBar) {
+                progressBar.style.width = progress.progressPercentage + '%';
+            }
+            
+            // Update stats
+            const completedCount = document.querySelector('.completed-count');
+            if (completedCount) {
+                completedCount.textContent = progress.completedLessons;
+            }
+            
+            const totalCount = document.querySelector('.total-count');
+            if (totalCount) {
+                totalCount.textContent = progress.totalLessons;
+            }
+            
+            const xpCount = document.querySelector('.xp-count');
+            if (xpCount) {
+                xpCount.textContent = progress.courseXP;
+            }
+        }
+    </script>
+</body>
+</html> 
