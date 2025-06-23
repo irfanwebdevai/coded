@@ -1,0 +1,1384 @@
+/* Import Pixel/Retro Fonts - Optimized for performance */
+@import url('https://fonts.googleapis.com/css2?family=Press+Start+2P&family=VT323:wght@400&display=swap');
+
+/* Preload critical fonts */
+@font-face {
+    font-family: 'VT323';
+    font-display: swap;
+}
+
+@font-face {
+    font-family: 'Press Start 2P';
+    font-display: swap;
+}
+
+/* Reset and Base Styles */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'VT323', monospace;
+    background: #0f172a;
+    color: #e2e8f0;
+    line-height: 1.4;
+    overflow-x: hidden;
+    font-weight: 400;
+    letter-spacing: 1px;
+    font-size: 20px;
+    cursor: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"><rect x="0" y="0" width="2" height="2" fill="black"/><rect x="2" y="0" width="2" height="2" fill="black"/><rect x="0" y="2" width="2" height="2" fill="black"/><rect x="2" y="2" width="2" height="2" fill="white"/><rect x="4" y="2" width="2" height="2" fill="black"/><rect x="0" y="4" width="2" height="2" fill="black"/><rect x="2" y="4" width="2" height="2" fill="white"/><rect x="4" y="4" width="2" height="2" fill="white"/><rect x="6" y="4" width="2" height="2" fill="black"/><rect x="0" y="6" width="2" height="2" fill="black"/><rect x="2" y="6" width="2" height="2" fill="white"/><rect x="4" y="6" width="2" height="2" fill="white"/><rect x="6" y="6" width="2" height="2" fill="white"/><rect x="8" y="6" width="2" height="2" fill="black"/><rect x="0" y="8" width="2" height="2" fill="black"/><rect x="2" y="8" width="2" height="2" fill="white"/><rect x="4" y="8" width="2" height="2" fill="white"/><rect x="6" y="8" width="2" height="2" fill="white"/><rect x="8" y="8" width="2" height="2" fill="white"/><rect x="10" y="8" width="2" height="2" fill="black"/><rect x="0" y="10" width="2" height="2" fill="black"/><rect x="2" y="10" width="2" height="2" fill="white"/><rect x="4" y="10" width="2" height="2" fill="white"/><rect x="6" y="10" width="2" height="2" fill="white"/><rect x="8" y="10" width="2" height="2" fill="white"/><rect x="10" y="10" width="2" height="2" fill="white"/><rect x="12" y="10" width="2" height="2" fill="black"/><rect x="0" y="12" width="2" height="2" fill="black"/><rect x="2" y="12" width="2" height="2" fill="white"/><rect x="4" y="12" width="2" height="2" fill="white"/><rect x="6" y="12" width="2" height="2" fill="white"/><rect x="8" y="12" width="2" height="2" fill="white"/><rect x="10" y="12" width="2" height="2" fill="white"/><rect x="12" y="12" width="2" height="2" fill="white"/><rect x="14" y="12" width="2" height="2" fill="black"/><rect x="0" y="14" width="2" height="2" fill="black"/><rect x="2" y="14" width="2" height="2" fill="white"/><rect x="4" y="14" width="2" height="2" fill="white"/><rect x="6" y="14" width="2" height="2" fill="white"/><rect x="8" y="14" width="2" height="2" fill="white"/><rect x="10" y="14" width="2" height="2" fill="white"/><rect x="12" y="14" width="2" height="2" fill="white"/><rect x="14" y="14" width="2" height="2" fill="white"/><rect x="16" y="14" width="2" height="2" fill="black"/><rect x="0" y="16" width="2" height="2" fill="black"/><rect x="2" y="16" width="2" height="2" fill="white"/><rect x="4" y="16" width="2" height="2" fill="white"/><rect x="6" y="16" width="2" height="2" fill="white"/><rect x="8" y="16" width="2" height="2" fill="white"/><rect x="10" y="16" width="2" height="2" fill="white"/><rect x="12" y="16" width="2" height="2" fill="black"/><rect x="14" y="16" width="2" height="2" fill="black"/><rect x="0" y="18" width="2" height="2" fill="black"/><rect x="2" y="18" width="2" height="2" fill="white"/><rect x="4" y="18" width="2" height="2" fill="white"/><rect x="6" y="18" width="2" height="2" fill="white"/><rect x="8" y="18" width="2" height="2" fill="white"/><rect x="10" y="18" width="2" height="2" fill="black"/><rect x="0" y="20" width="2" height="2" fill="black"/><rect x="2" y="20" width="2" height="2" fill="white"/><rect x="4" y="20" width="2" height="2" fill="white"/><rect x="6" y="20" width="2" height="2" fill="black"/><rect x="8" y="20" width="2" height="2" fill="black"/><rect x="0" y="22" width="2" height="2" fill="black"/><rect x="2" y="22" width="2" height="2" fill="black"/><rect x="4" y="22" width="2" height="2" fill="black"/></svg>') 0 0, auto;
+}
+
+.container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 20px;
+}
+
+/* Header Styles - Exact match to the image */
+.header {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    background: #0f172a;
+    z-index: 1000;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.navbar {
+    padding: 0.75rem 0;
+}
+
+.nav-container {
+    max-width: 1400px;
+    margin: 0 auto;
+    padding: 0 24px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.nav-brand {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    font-size: 24px;
+    font-weight: 400;
+    color: #ffffff;
+    font-family: 'Press Start 2P', monospace;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+}
+
+.brand-icon {
+    font-size: 26px;
+}
+
+.nav-menu {
+    display: flex;
+    list-style: none;
+    gap: 2.8rem;
+    margin: 0;
+    padding: 0;
+}
+
+.nav-item {
+    position: relative;
+}
+
+.nav-link {
+    color: #e2e8f0;
+    text-decoration: none;
+    font-weight: 400;
+    font-size: 18px;
+    display: flex;
+    align-items: center;
+    gap: 4px;
+    transition: color 0.3s ease;
+    padding: 10px 0;
+    font-family: 'VT323', monospace;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+}
+
+.nav-link:hover {
+    color: #fbbf24;
+}
+
+.dropdown-arrow {
+    font-size: 10px;
+    color: #94a3b8;
+    margin-left: 2px;
+}
+
+.nav-actions {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+}
+
+.user-menu {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    color: #e2e8f0;
+    font-family: 'VT323', monospace;
+    font-size: 16px;
+}
+
+.user-avatar {
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+    overflow: hidden;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: #4ade80;
+}
+
+.avatar-img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.user-name {
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+}
+
+.btn-settings {
+    background: transparent;
+    border: none;
+    color: #9ca3af;
+    font-size: 14px;
+    padding: 12px 16px;
+    border-radius: 8px;
+    cursor: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 20 20"><rect x="0" y="0" width="2" height="2" fill="black"/><rect x="2" y="0" width="2" height="2" fill="black"/><rect x="4" y="0" width="2" height="2" fill="black"/><rect x="6" y="0" width="2" height="2" fill="black"/><rect x="0" y="2" width="2" height="2" fill="black"/><rect x="2" y="2" width="2" height="2" fill="white"/><rect x="4" y="2" width="2" height="2" fill="white"/><rect x="6" y="2" width="2" height="2" fill="black"/><rect x="8" y="2" width="2" height="2" fill="black"/><rect x="10" y="2" width="2" height="2" fill="black"/><rect x="0" y="4" width="2" height="2" fill="black"/><rect x="2" y="4" width="2" height="2" fill="white"/><rect x="4" y="4" width="2" height="2" fill="white"/><rect x="6" y="4" width="2" height="2" fill="black"/><rect x="8" y="4" width="2" height="2" fill="white"/><rect x="10" y="4" width="2" height="2" fill="black"/><rect x="12" y="4" width="2" height="2" fill="black"/><rect x="0" y="6" width="2" height="2" fill="black"/><rect x="2" y="6" width="2" height="2" fill="white"/><rect x="4" y="6" width="2" height="2" fill="white"/><rect x="6" y="6" width="2" height="2" fill="black"/><rect x="8" y="6" width="2" height="2" fill="white"/><rect x="10" y="6" width="2" height="2" fill="white"/><rect x="12" y="6" width="2" height="2" fill="black"/><rect x="14" y="6" width="2" height="2" fill="black"/><rect x="0" y="8" width="2" height="2" fill="black"/><rect x="2" y="8" width="2" height="2" fill="white"/><rect x="4" y="8" width="2" height="2" fill="white"/><rect x="6" y="8" width="2" height="2" fill="white"/><rect x="8" y="8" width="2" height="2" fill="white"/><rect x="10" y="8" width="2" height="2" fill="white"/><rect x="12" y="8" width="2" height="2" fill="white"/><rect x="14" y="8" width="2" height="2" fill="black"/><rect x="0" y="10" width="2" height="2" fill="black"/><rect x="2" y="10" width="2" height="2" fill="white"/><rect x="4" y="10" width="2" height="2" fill="white"/><rect x="6" y="10" width="2" height="2" fill="white"/><rect x="8" y="10" width="2" height="2" fill="white"/><rect x="10" y="10" width="2" height="2" fill="white"/><rect x="12" y="10" width="2" height="2" fill="white"/><rect x="14" y="10" width="2" height="2" fill="black"/><rect x="0" y="12" width="2" height="2" fill="black"/><rect x="2" y="12" width="2" height="2" fill="white"/><rect x="4" y="12" width="2" height="2" fill="white"/><rect x="6" y="12" width="2" height="2" fill="white"/><rect x="8" y="12" width="2" height="2" fill="white"/><rect x="10" y="12" width="2" height="2" fill="white"/><rect x="12" y="12" width="2" height="2" fill="black"/><rect x="0" y="14" width="2" height="2" fill="black"/><rect x="2" y="14" width="2" height="2" fill="white"/><rect x="4" y="14" width="2" height="2" fill="white"/><rect x="6" y="14" width="2" height="2" fill="white"/><rect x="8" y="14" width="2" height="2" fill="white"/><rect x="10" y="14" width="2" height="2" fill="black"/><rect x="0" y="16" width="2" height="2" fill="black"/><rect x="2" y="16" width="2" height="2" fill="white"/><rect x="4" y="16" width="2" height="2" fill="white"/><rect x="6" y="16" width="2" height="2" fill="black"/><rect x="8" y="16" width="2" height="2" fill="black"/><rect x="0" y="18" width="2" height="2" fill="black"/><rect x="2" y="18" width="2" height="2" fill="black"/><rect x="4" y="18" width="2" height="2" fill="black"/></svg>') 8 8, pointer;
+    transition: all 0.3s ease;
+    text-decoration: none;
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    font-family: 'Press Start 2P', monospace;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+}
+
+.btn-settings:hover {
+    color: #e5e7eb;
+    background: rgba(255, 255, 255, 0.08);
+    transform: rotate(15deg);
+}
+
+.btn-signup {
+    background: #fbbf24;
+    color: #1f2937;
+    border: none;
+    padding: 12px 20px;
+    border-radius: 6px;
+    font-weight: 400;
+    font-size: 14px;
+    cursor: pointer;
+    transition: all 0.15s cubic-bezier(0.4, 0, 0.2, 1);
+    font-family: 'Press Start 2P', monospace;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    position: relative;
+    overflow: hidden;
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    text-decoration: none;
+    /* Physical 3D Button Effect - Popped Out */
+    border-top: 3px solid #fde047;
+    border-left: 3px solid #fde047;
+    border-right: 3px solid #92400e;
+    border-bottom: 3px solid #92400e;
+    box-shadow: 
+        0 8px 0 #92400e,
+        0 12px 20px rgba(0, 0, 0, 0.4);
+    transform: translateY(-3px);
+}
+
+.btn-signup::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: linear-gradient(135deg, #fde047 0%, #facc15 50%, #eab308 100%);
+    opacity: 0;
+    transition: opacity 0.15s ease;
+    border-radius: 16px;
+}
+
+/* Hover Effect - Button Lifts Up More */
+.btn-signup:hover {
+    background: #fde047;
+    transform: translateY(-5px);
+    box-shadow: 
+        0 10px 0 #92400e,
+        0 15px 25px rgba(0, 0, 0, 0.5);
+    border-top-color: #fef3c7;
+    border-left-color: #fef3c7;
+}
+
+.btn-signup:hover::before {
+    opacity: 0.3;
+}
+
+/* Active/Click Effect - Button Gets Pushed In */
+.btn-signup:active {
+    background: #f59e0b;
+    transform: translateY(5px);
+    box-shadow: 
+        0 0px 0 #92400e,
+        0 0px 1px rgba(0, 0, 0, 0.05),
+        0 0px 15px rgba(251, 191, 36, 0.7),
+        inset 0 1px 0 rgba(255, 255, 255, 0.3);
+    border-top-color: #d97706;
+    border-left-color: #d97706;
+    border-right-color: #fde047;
+    border-bottom-color: #fde047;
+    transition: all 0.05s ease;
+    filter: brightness(1.15);
+}
+
+.btn-signup:active::before {
+    opacity: 0.8;
+    animation: buttonPulse 0.3s ease-out;
+}
+
+.quest-icon {
+    font-size: 16px;
+    position: relative;
+    z-index: 2;
+    animation: float-icon 2s ease-in-out infinite;
+}
+
+.btn-signup span {
+    position: relative;
+    z-index: 2;
+}
+
+@keyframes buttonGlow {
+    0% { 
+        box-shadow: 
+            0 8px 0 #92400e,
+            0 12px 20px rgba(0, 0, 0, 0.4),
+            0 4px 15px rgba(251, 191, 36, 0.6),
+            inset 0 1px 0 rgba(255, 255, 255, 0.4);
+    }
+    50% { 
+        box-shadow: 
+            0 8px 0 #92400e,
+            0 12px 25px rgba(0, 0, 0, 0.5),
+            0 4px 20px rgba(251, 191, 36, 0.8),
+            0 0 15px rgba(251, 191, 36, 0.6),
+            inset 0 1px 0 rgba(255, 255, 255, 0.5);
+        filter: brightness(1.1);
+    }
+    100% { 
+        box-shadow: 
+            0 8px 0 #92400e,
+            0 12px 20px rgba(0, 0, 0, 0.4),
+            0 4px 15px rgba(251, 191, 36, 0.6),
+            inset 0 1px 0 rgba(255, 255, 255, 0.4);
+    }
+}
+
+@keyframes retroGlow {
+    0% {
+        text-shadow: 
+            0 0 10px #00ffff,
+            0 0 20px #00ffff,
+            0 0 30px #00ffff,
+            2px 2px 0px #ff00ff,
+            4px 4px 0px #ffff00;
+    }
+    100% {
+        text-shadow: 
+            0 0 20px #00ffff,
+            0 0 30px #00ffff,
+            0 0 40px #00ffff,
+            2px 2px 0px #ff00ff,
+            4px 4px 0px #ffff00;
+    }
+}
+
+@keyframes float-icon {
+    0%, 100% { transform: translateY(0px); }
+    50% { transform: translateY(-2px); }
+}
+
+.hamburger {
+    display: none;
+    flex-direction: column;
+    gap: 4px;
+    cursor: pointer;
+}
+
+.hamburger span {
+    width: 25px;
+    height: 3px;
+    background: white;
+    border-radius: 2px;
+    transition: all 0.3s ease;
+}
+
+/* Classic Pixel Pointer Hand Cursor */
+a, button, .btn-primary, .btn-secondary, .btn-signup, .nav-link, .feature-card {
+    cursor: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 20 20"><rect x="0" y="0" width="2" height="2" fill="black"/><rect x="2" y="0" width="2" height="2" fill="black"/><rect x="4" y="0" width="2" height="2" fill="black"/><rect x="6" y="0" width="2" height="2" fill="black"/><rect x="0" y="2" width="2" height="2" fill="black"/><rect x="2" y="2" width="2" height="2" fill="white"/><rect x="4" y="2" width="2" height="2" fill="white"/><rect x="6" y="2" width="2" height="2" fill="black"/><rect x="8" y="2" width="2" height="2" fill="black"/><rect x="10" y="2" width="2" height="2" fill="black"/><rect x="0" y="4" width="2" height="2" fill="black"/><rect x="2" y="4" width="2" height="2" fill="white"/><rect x="4" y="4" width="2" height="2" fill="white"/><rect x="6" y="4" width="2" height="2" fill="black"/><rect x="8" y="4" width="2" height="2" fill="white"/><rect x="10" y="4" width="2" height="2" fill="black"/><rect x="12" y="4" width="2" height="2" fill="black"/><rect x="0" y="6" width="2" height="2" fill="black"/><rect x="2" y="6" width="2" height="2" fill="white"/><rect x="4" y="6" width="2" height="2" fill="white"/><rect x="6" y="6" width="2" height="2" fill="black"/><rect x="8" y="6" width="2" height="2" fill="white"/><rect x="10" y="6" width="2" height="2" fill="white"/><rect x="12" y="6" width="2" height="2" fill="black"/><rect x="14" y="6" width="2" height="2" fill="black"/><rect x="0" y="8" width="2" height="2" fill="black"/><rect x="2" y="8" width="2" height="2" fill="white"/><rect x="4" y="8" width="2" height="2" fill="white"/><rect x="6" y="8" width="2" height="2" fill="white"/><rect x="8" y="8" width="2" height="2" fill="white"/><rect x="10" y="8" width="2" height="2" fill="white"/><rect x="12" y="8" width="2" height="2" fill="white"/><rect x="14" y="8" width="2" height="2" fill="black"/><rect x="0" y="10" width="2" height="2" fill="black"/><rect x="2" y="10" width="2" height="2" fill="white"/><rect x="4" y="10" width="2" height="2" fill="white"/><rect x="6" y="10" width="2" height="2" fill="white"/><rect x="8" y="10" width="2" height="2" fill="white"/><rect x="10" y="10" width="2" height="2" fill="white"/><rect x="12" y="10" width="2" height="2" fill="white"/><rect x="14" y="10" width="2" height="2" fill="black"/><rect x="0" y="12" width="2" height="2" fill="black"/><rect x="2" y="12" width="2" height="2" fill="white"/><rect x="4" y="12" width="2" height="2" fill="white"/><rect x="6" y="12" width="2" height="2" fill="white"/><rect x="8" y="12" width="2" height="2" fill="white"/><rect x="10" y="12" width="2" height="2" fill="white"/><rect x="12" y="12" width="2" height="2" fill="black"/><rect x="0" y="14" width="2" height="2" fill="black"/><rect x="2" y="14" width="2" height="2" fill="white"/><rect x="4" y="14" width="2" height="2" fill="white"/><rect x="6" y="14" width="2" height="2" fill="white"/><rect x="8" y="14" width="2" height="2" fill="white"/><rect x="10" y="14" width="2" height="2" fill="black"/><rect x="0" y="16" width="2" height="2" fill="black"/><rect x="2" y="16" width="2" height="2" fill="white"/><rect x="4" y="16" width="2" height="2" fill="white"/><rect x="6" y="16" width="2" height="2" fill="black"/><rect x="8" y="16" width="2" height="2" fill="black"/><rect x="0" y="18" width="2" height="2" fill="black"/><rect x="2" y="18" width="2" height="2" fill="black"/><rect x="4" y="18" width="2" height="2" fill="black"/></svg>') 8 8, pointer !important;
+}
+
+input, textarea {
+    cursor: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="12" height="24" viewBox="0 0 12 24"><rect x="4" y="0" width="2" height="2" fill="black"/><rect x="6" y="0" width="2" height="2" fill="black"/><rect x="4" y="2" width="2" height="2" fill="black"/><rect x="6" y="2" width="2" height="2" fill="black"/><rect x="2" y="4" width="2" height="2" fill="black"/><rect x="4" y="4" width="2" height="2" fill="white"/><rect x="6" y="4" width="2" height="2" fill="white"/><rect x="8" y="4" width="2" height="2" fill="black"/><rect x="4" y="6" width="2" height="2" fill="white"/><rect x="6" y="6" width="2" height="2" fill="white"/><rect x="4" y="8" width="2" height="2" fill="white"/><rect x="6" y="8" width="2" height="2" fill="white"/><rect x="4" y="10" width="2" height="2" fill="white"/><rect x="6" y="10" width="2" height="2" fill="white"/><rect x="4" y="12" width="2" height="2" fill="white"/><rect x="6" y="12" width="2" height="2" fill="white"/><rect x="4" y="14" width="2" height="2" fill="white"/><rect x="6" y="14" width="2" height="2" fill="white"/><rect x="4" y="16" width="2" height="2" fill="white"/><rect x="6" y="16" width="2" height="2" fill="white"/><rect x="2" y="18" width="2" height="2" fill="black"/><rect x="4" y="18" width="2" height="2" fill="white"/><rect x="6" y="18" width="2" height="2" fill="white"/><rect x="8" y="18" width="2" height="2" fill="black"/><rect x="4" y="20" width="2" height="2" fill="black"/><rect x="6" y="20" width="2" height="2" fill="black"/><rect x="4" y="22" width="2" height="2" fill="black"/><rect x="6" y="22" width="2" height="2" fill="black"/></svg>') 6 12, text !important;
+}
+
+/* Classic Arrow Cursor for Hero Section */
+.hero {
+    cursor: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"><rect x="0" y="0" width="2" height="2" fill="black"/><rect x="2" y="0" width="2" height="2" fill="black"/><rect x="0" y="2" width="2" height="2" fill="black"/><rect x="2" y="2" width="2" height="2" fill="white"/><rect x="4" y="2" width="2" height="2" fill="black"/><rect x="0" y="4" width="2" height="2" fill="black"/><rect x="2" y="4" width="2" height="2" fill="white"/><rect x="4" y="4" width="2" height="2" fill="white"/><rect x="6" y="4" width="2" height="2" fill="black"/><rect x="0" y="6" width="2" height="2" fill="black"/><rect x="2" y="6" width="2" height="2" fill="white"/><rect x="4" y="6" width="2" height="2" fill="white"/><rect x="6" y="6" width="2" height="2" fill="white"/><rect x="8" y="6" width="2" height="2" fill="black"/><rect x="0" y="8" width="2" height="2" fill="black"/><rect x="2" y="8" width="2" height="2" fill="white"/><rect x="4" y="8" width="2" height="2" fill="white"/><rect x="6" y="8" width="2" height="2" fill="white"/><rect x="8" y="8" width="2" height="2" fill="white"/><rect x="10" y="8" width="2" height="2" fill="black"/><rect x="0" y="10" width="2" height="2" fill="black"/><rect x="2" y="10" width="2" height="2" fill="white"/><rect x="4" y="10" width="2" height="2" fill="white"/><rect x="6" y="10" width="2" height="2" fill="white"/><rect x="8" y="10" width="2" height="2" fill="white"/><rect x="10" y="10" width="2" height="2" fill="white"/><rect x="12" y="10" width="2" height="2" fill="black"/><rect x="0" y="12" width="2" height="2" fill="black"/><rect x="2" y="12" width="2" height="2" fill="white"/><rect x="4" y="12" width="2" height="2" fill="white"/><rect x="6" y="12" width="2" height="2" fill="white"/><rect x="8" y="12" width="2" height="2" fill="white"/><rect x="10" y="12" width="2" height="2" fill="white"/><rect x="12" y="12" width="2" height="2" fill="white"/><rect x="14" y="12" width="2" height="2" fill="black"/><rect x="0" y="14" width="2" height="2" fill="black"/><rect x="2" y="14" width="2" height="2" fill="white"/><rect x="4" y="14" width="2" height="2" fill="white"/><rect x="6" y="14" width="2" height="2" fill="white"/><rect x="8" y="14" width="2" height="2" fill="white"/><rect x="10" y="14" width="2" height="2" fill="white"/><rect x="12" y="14" width="2" height="2" fill="white"/><rect x="14" y="14" width="2" height="2" fill="white"/><rect x="16" y="14" width="2" height="2" fill="black"/><rect x="0" y="16" width="2" height="2" fill="black"/><rect x="2" y="16" width="2" height="2" fill="white"/><rect x="4" y="16" width="2" height="2" fill="white"/><rect x="6" y="16" width="2" height="2" fill="white"/><rect x="8" y="16" width="2" height="2" fill="white"/><rect x="10" y="16" width="2" height="2" fill="white"/><rect x="12" y="16" width="2" height="2" fill="black"/><rect x="14" y="16" width="2" height="2" fill="black"/><rect x="0" y="18" width="2" height="2" fill="black"/><rect x="2" y="18" width="2" height="2" fill="white"/><rect x="4" y="18" width="2" height="2" fill="white"/><rect x="6" y="18" width="2" height="2" fill="white"/><rect x="8" y="18" width="2" height="2" fill="white"/><rect x="10" y="18" width="2" height="2" fill="black"/><rect x="0" y="20" width="2" height="2" fill="black"/><rect x="2" y="20" width="2" height="2" fill="white"/><rect x="4" y="20" width="2" height="2" fill="white"/><rect x="6" y="20" width="2" height="2" fill="black"/><rect x="8" y="20" width="2" height="2" fill="black"/><rect x="0" y="22" width="2" height="2" fill="black"/><rect x="2" y="22" width="2" height="2" fill="black"/><rect x="4" y="22" width="2" height="2" fill="black"/></svg>') 0 0, auto !important;
+}
+
+
+
+/* Button Styles */
+.btn-primary {
+    background: #fbbf24;
+    color: #1f2937;
+    border: none;
+    padding: 14px 28px;
+    border-radius: 6px;
+    font-weight: 400;
+    cursor: pointer;
+    transition: all 0.15s cubic-bezier(0.4, 0, 0.2, 1);
+    text-decoration: none;
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    font-family: 'Press Start 2P', monospace;
+    letter-spacing: 1px;
+    font-size: 14px;
+    text-transform: uppercase;
+    position: relative;
+    overflow: hidden;
+    /* Physical 3D Button Effect - Popped Out */
+    border-top: 3px solid #fde047;
+    border-left: 3px solid #fde047;
+    border-right: 3px solid #92400e;
+    border-bottom: 3px solid #92400e;
+    box-shadow: 
+        0 8px 0 #92400e,
+        0 12px 20px rgba(0, 0, 0, 0.4);
+    transform: translateY(-3px);
+}
+
+.btn-primary::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: linear-gradient(135deg, #fde047 0%, #facc15 50%, #eab308 100%);
+    opacity: 0;
+    transition: opacity 0.15s ease;
+    border-radius: 16px;
+}
+
+.btn-primary:hover {
+    background: #fde047;
+    transform: translateY(-5px);
+    box-shadow: 
+        0 10px 0 #92400e,
+        0 15px 25px rgba(0, 0, 0, 0.5);
+    border-top-color: #fef3c7;
+    border-left-color: #fef3c7;
+}
+
+.btn-primary:hover::before {
+    opacity: 0.3;
+}
+
+.btn-primary:active {
+    background: #f59e0b;
+    transform: translateY(5px);
+    box-shadow: 
+        0 0px 0 #92400e,
+        0 0px 1px rgba(0, 0, 0, 0.05),
+        0 0px 15px rgba(251, 191, 36, 0.7),
+        inset 0 1px 0 rgba(255, 255, 255, 0.3);
+    border-top-color: #d97706;
+    border-left-color: #d97706;
+    border-right-color: #fde047;
+    border-bottom-color: #fde047;
+    transition: all 0.05s ease;
+    filter: brightness(1.15);
+}
+
+.btn-primary:active::before {
+    opacity: 0.8;
+    animation: buttonPulse 0.3s ease-out;
+}
+
+@keyframes buttonPulse {
+    0% { 
+        opacity: 0.3;
+        transform: scale(1);
+    }
+    50% { 
+        opacity: 0.9;
+        transform: scale(1.05);
+    }
+    100% { 
+        opacity: 0.8;
+        transform: scale(1);
+    }
+}
+
+.btn-primary span {
+    position: relative;
+    z-index: 2;
+}
+
+.btn-secondary {
+    background: #8b5cf6;
+    color: #ffffff;
+    border: none;
+    padding: 14px 28px;
+    border-radius: 6px;
+    font-weight: 400;
+    cursor: pointer;
+    transition: all 0.15s cubic-bezier(0.4, 0, 0.2, 1);
+    text-decoration: none;
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    font-family: 'Press Start 2P', monospace;
+    letter-spacing: 1px;
+    font-size: 14px;
+    text-transform: uppercase;
+    position: relative;
+    overflow: hidden;
+    /* Physical 3D Button Effect - Popped Out */
+    border-top: 3px solid #a78bfa;
+    border-left: 3px solid #a78bfa;
+    border-right: 3px solid #4c1d95;
+    border-bottom: 3px solid #4c1d95;
+    box-shadow: 
+        0 8px 0 #4c1d95,
+        0 12px 20px rgba(0, 0, 0, 0.4);
+    transform: translateY(-3px);
+}
+
+.btn-secondary::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: linear-gradient(135deg, #a78bfa 0%, #9333ea 50%, #7c3aed 100%);
+    opacity: 0;
+    transition: opacity 0.15s ease;
+    border-radius: 16px;
+}
+
+.btn-secondary:hover {
+    background: #a78bfa;
+    transform: translateY(-5px);
+    box-shadow: 
+        0 10px 0 #4c1d95,
+        0 15px 25px rgba(0, 0, 0, 0.5);
+    border-top-color: #c4b5fd;
+    border-left-color: #c4b5fd;
+}
+
+.btn-secondary:hover::before {
+    opacity: 0.3;
+}
+
+.btn-secondary:active {
+    background: #6d28d9;
+    transform: translateY(5px);
+    box-shadow: 
+        0 0px 0 #4c1d95,
+        0 0px 1px rgba(0, 0, 0, 0.05),
+        0 0px 15px rgba(139, 92, 246, 0.7),
+        inset 0 1px 0 rgba(255, 255, 255, 0.2);
+    border-top-color: #4c1d95;
+    border-left-color: #4c1d95;
+    border-right-color: #a78bfa;
+    border-bottom-color: #a78bfa;
+    transition: all 0.05s ease;
+    filter: brightness(1.15);
+}
+
+.btn-secondary:active::before {
+    opacity: 0.8;
+    animation: buttonPulse 0.3s ease-out;
+}
+
+.btn-secondary span {
+    position: relative;
+    z-index: 2;
+}
+
+/* Add floating animation to all quest icons */
+.btn-primary .quest-icon,
+.btn-secondary .quest-icon {
+    font-size: 16px;
+    position: relative;
+    z-index: 2;
+    animation: float-icon 2s ease-in-out infinite;
+}
+
+.btn-large {
+    padding: 16px 32px;
+    font-size: 18px;
+}
+
+/* Hero Section */
+.hero {
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    background: 
+        linear-gradient(rgba(10, 14, 26, 0.4), rgba(26, 31, 58, 0.6)),
+        url('/images/hero-background.png');
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    position: relative;
+    overflow: hidden;
+    padding-top: 80px;
+}
+
+.hero::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: 
+        radial-gradient(circle at 20% 80%, rgba(139, 92, 246, 0.15) 0%, transparent 40%),
+        radial-gradient(circle at 80% 20%, rgba(59, 130, 246, 0.1) 0%, transparent 40%),
+        radial-gradient(circle at 50% 50%, rgba(251, 191, 36, 0.05) 0%, transparent 60%),
+        linear-gradient(180deg, rgba(10, 14, 26, 0.2) 0%, rgba(26, 31, 58, 0.4) 100%);
+}
+
+.hero-content {
+    position: relative;
+    z-index: 3;
+    text-align: center;
+    max-width: 800px;
+    margin: 0 auto;
+    padding: 20px;
+}
+
+.hero-title {
+    font-size: 3.5rem;
+    font-weight: 400;
+    line-height: 1.2;
+    margin-bottom: 1.5rem;
+    font-family: 'Press Start 2P', monospace;
+    background: linear-gradient(135deg, #a855f7 0%, #3b82f6 30%, #06b6d4 60%, #fbbf24 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    text-shadow: 
+        0 0 20px rgba(168, 85, 247, 0.4),
+        0 0 40px rgba(59, 130, 246, 0.3),
+        0 0 60px rgba(251, 191, 36, 0.2);
+    filter: drop-shadow(2px 2px 8px rgba(0, 0, 0, 0.7));
+}
+
+.hero-subtitle {
+    font-size: 22px;
+    color: #cbd5e1;
+    margin-bottom: 2rem;
+    max-width: 600px;
+    margin-left: auto;
+    margin-right: auto;
+    font-family: 'VT323', monospace;
+    letter-spacing: 1px;
+    line-height: 1.4;
+    font-weight: 400;
+    text-transform: uppercase;
+}
+
+.hero-actions {
+    display: flex;
+    gap: 1rem;
+    justify-content: center;
+    margin-bottom: 3rem;
+    flex-wrap: wrap;
+}
+
+.hero-stats {
+    display: flex;
+    gap: 2rem;
+    justify-content: center;
+    flex-wrap: wrap;
+}
+
+.stat-item {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    color: #cbd5e1;
+    font-size: 16px;
+    font-family: 'VT323', monospace;
+    letter-spacing: 1px;
+    font-weight: 400;
+    text-transform: uppercase;
+}
+
+.stat-item i {
+    color: #fbbf24;
+}
+
+/* Features Section */
+.features {
+    padding: 120px 0;
+    background: linear-gradient(180deg, rgba(26, 31, 58, 0.9) 0%, rgba(15, 23, 42, 0.95) 50%, rgba(10, 14, 26, 1) 100%);
+    margin-top: -1px;
+}
+
+.section-header {
+    text-align: center;
+    margin-bottom: 4rem;
+}
+
+.section-header h2 {
+    font-size: 2.5rem;
+    font-weight: 400;
+    margin-bottom: 1rem;
+    font-family: 'Press Start 2P', monospace;
+    background: linear-gradient(135deg, #64b5f6 0%, #42a5f5 50%, #2196f3 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+}
+
+.section-header p {
+    font-size: 22px;
+    color: #94a3b8;
+    max-width: 600px;
+    margin: 0 auto;
+    font-family: 'VT323', monospace;
+    letter-spacing: 1px;
+    font-weight: 400;
+    text-transform: uppercase;
+}
+
+.features-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 2rem;
+}
+
+.feature-card {
+    background: rgba(15, 23, 42, 0.6);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: 20px;
+    padding: 2rem;
+    text-align: center;
+    transition: all 0.3s ease;
+}
+
+.feature-card:hover {
+    transform: translateY(-8px);
+    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);
+    border-color: rgba(251, 191, 36, 0.3);
+    cursor: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 20 20"><rect x="0" y="0" width="2" height="2" fill="black"/><rect x="2" y="0" width="2" height="2" fill="black"/><rect x="4" y="0" width="2" height="2" fill="black"/><rect x="6" y="0" width="2" height="2" fill="black"/><rect x="0" y="2" width="2" height="2" fill="black"/><rect x="2" y="2" width="2" height="2" fill="white"/><rect x="4" y="2" width="2" height="2" fill="white"/><rect x="6" y="2" width="2" height="2" fill="black"/><rect x="8" y="2" width="2" height="2" fill="black"/><rect x="10" y="2" width="2" height="2" fill="black"/><rect x="0" y="4" width="2" height="2" fill="black"/><rect x="2" y="4" width="2" height="2" fill="white"/><rect x="4" y="4" width="2" height="2" fill="white"/><rect x="6" y="4" width="2" height="2" fill="black"/><rect x="8" y="4" width="2" height="2" fill="white"/><rect x="10" y="4" width="2" height="2" fill="black"/><rect x="12" y="4" width="2" height="2" fill="black"/><rect x="0" y="6" width="2" height="2" fill="black"/><rect x="2" y="6" width="2" height="2" fill="white"/><rect x="4" y="6" width="2" height="2" fill="white"/><rect x="6" y="6" width="2" height="2" fill="black"/><rect x="8" y="6" width="2" height="2" fill="white"/><rect x="10" y="6" width="2" height="2" fill="white"/><rect x="12" y="6" width="2" height="2" fill="black"/><rect x="14" y="6" width="2" height="2" fill="black"/><rect x="0" y="8" width="2" height="2" fill="black"/><rect x="2" y="8" width="2" height="2" fill="white"/><rect x="4" y="8" width="2" height="2" fill="white"/><rect x="6" y="8" width="2" height="2" fill="white"/><rect x="8" y="8" width="2" height="2" fill="white"/><rect x="10" y="8" width="2" height="2" fill="white"/><rect x="12" y="8" width="2" height="2" fill="white"/><rect x="14" y="8" width="2" height="2" fill="black"/><rect x="0" y="10" width="2" height="2" fill="black"/><rect x="2" y="10" width="2" height="2" fill="white"/><rect x="4" y="10" width="2" height="2" fill="white"/><rect x="6" y="10" width="2" height="2" fill="white"/><rect x="8" y="10" width="2" height="2" fill="white"/><rect x="10" y="10" width="2" height="2" fill="white"/><rect x="12" y="10" width="2" height="2" fill="white"/><rect x="14" y="10" width="2" height="2" fill="black"/><rect x="0" y="12" width="2" height="2" fill="black"/><rect x="2" y="12" width="2" height="2" fill="white"/><rect x="4" y="12" width="2" height="2" fill="white"/><rect x="6" y="12" width="2" height="2" fill="white"/><rect x="8" y="12" width="2" height="2" fill="white"/><rect x="10" y="12" width="2" height="2" fill="white"/><rect x="12" y="12" width="2" height="2" fill="black"/><rect x="0" y="14" width="2" height="2" fill="black"/><rect x="2" y="14" width="2" height="2" fill="white"/><rect x="4" y="14" width="2" height="2" fill="white"/><rect x="6" y="14" width="2" height="2" fill="white"/><rect x="8" y="14" width="2" height="2" fill="white"/><rect x="10" y="14" width="2" height="2" fill="black"/><rect x="0" y="16" width="2" height="2" fill="black"/><rect x="2" y="16" width="2" height="2" fill="white"/><rect x="4" y="16" width="2" height="2" fill="white"/><rect x="6" y="16" width="2" height="2" fill="black"/><rect x="8" y="16" width="2" height="2" fill="black"/><rect x="0" y="18" width="2" height="2" fill="black"/><rect x="2" y="18" width="2" height="2" fill="black"/><rect x="4" y="18" width="2" height="2" fill="black"/></svg>') 8 8, pointer !important;
+}
+
+.feature-icon {
+    width: 60px;
+    height: 60px;
+    background: rgba(251, 191, 36, 0.2);
+    border-radius: 16px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 0 auto 1.5rem;
+    font-size: 24px;
+    color: #fbbf24;
+}
+
+.feature-card h3 {
+    font-size: 18px;
+    font-weight: 400;
+    margin-bottom: 1rem;
+    font-family: 'Press Start 2P', monospace;
+    color: #fbbf24;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+}
+
+.feature-card p {
+    color: #cbd5e1;
+    font-family: 'VT323', monospace;
+    letter-spacing: 1px;
+    line-height: 1.4;
+    font-size: 18px;
+}
+
+/* CTA Section */
+.cta {
+    padding: 120px 0;
+    text-align: center;
+    background: linear-gradient(135deg, rgba(99, 102, 241, 0.1) 0%, rgba(139, 92, 246, 0.1) 100%);
+}
+
+.cta-content h2 {
+    font-size: 2.5rem;
+    font-weight: 400;
+    margin-bottom: 1rem;
+    font-family: 'Press Start 2P', monospace;
+    background: linear-gradient(135deg, #10b981 0%, #059669 50%, #047857 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+}
+
+.cta-content p {
+    font-size: 22px;
+    color: #94a3b8;
+    margin-bottom: 2rem;
+    max-width: 600px;
+    margin-left: auto;
+    margin-right: auto;
+    font-family: 'VT323', monospace;
+    letter-spacing: 1px;
+    line-height: 1.4;
+    text-transform: uppercase;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+    .nav-menu {
+        display: none;
+        position: fixed;
+        top: 70px;
+        left: 0;
+        width: 100%;
+        background: #0f172a;
+        flex-direction: column;
+        padding: 20px 0;
+        box-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
+        z-index: 999;
+    }
+    
+    .nav-menu.active {
+        display: flex;
+    }
+    
+    .nav-item {
+        width: 100%;
+        text-align: center;
+        padding: 10px 0;
+    }
+    
+    .nav-link {
+        justify-content: center;
+        padding: 12px 0;
+    }
+    
+    .hamburger {
+        display: flex;
+    }
+    
+    .hamburger.active span:nth-child(1) {
+        transform: rotate(-45deg) translate(-5px, 6px);
+    }
+    
+    .hamburger.active span:nth-child(2) {
+        opacity: 0;
+    }
+    
+    .hamburger.active span:nth-child(3) {
+        transform: rotate(45deg) translate(-5px, -6px);
+    }
+    
+    .nav-actions {
+        gap: 0.5rem;
+    }
+    
+    .btn-signup {
+        padding: 12px 18px;
+        font-size: 12px;
+        gap: 8px;
+    }
+    
+    .quest-icon {
+        font-size: 14px;
+    }
+    
+    .btn-settings {
+        padding: 8px;
+        font-size: 16px;
+    }
+    
+    .hero-title {
+        font-size: 2rem;
+        letter-spacing: 1px;
+    }
+    
+    .hero-actions {
+        flex-direction: column;
+        align-items: center;
+    }
+    
+    .hero-stats {
+        justify-content: center;
+    }
+    
+    .features-grid {
+        grid-template-columns: 1fr;
+    }
+}
+
+@media (max-width: 480px) {
+    .container {
+        padding: 0 15px;
+    }
+    
+    .hero-title {
+        font-size: 1.5rem;
+        letter-spacing: 1px;
+    }
+    
+    .section-header h2 {
+        font-size: 1.5rem;
+        letter-spacing: 1px;
+    }
+    
+    .cta-content h2 {
+        font-size: 1.5rem;
+        letter-spacing: 1px;
+    }
+    
+    .btn-large {
+        padding: 14px 24px;
+        font-size: 16px;
+    }
+}
+
+/* Course Page Enhancements */
+.course-hero {
+    background: linear-gradient(135deg, #8b5cf6 0%, #7c3aed 50%, #6d28d9 100%);
+    position: relative;
+    overflow: hidden;
+}
+
+.course-hero::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: 
+        radial-gradient(circle at 20% 80%, rgba(251, 191, 36, 0.2) 0%, transparent 40%),
+        radial-gradient(circle at 80% 20%, rgba(139, 92, 246, 0.3) 0%, transparent 40%);
+    animation: courseHeroGlow 8s ease-in-out infinite alternate;
+}
+
+@keyframes courseHeroGlow {
+    0% { opacity: 0.8; }
+    100% { opacity: 1; }
+}
+
+.course-badge {
+    background: rgba(255, 255, 255, 0.2);
+    backdrop-filter: blur(10px);
+    border: 1px solid rgba(255, 255, 255, 0.3);
+    border-radius: 25px;
+    padding: 8px 16px;
+    font-size: 14px;
+    font-family: 'Press Start 2P', monospace;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    color: rgba(255, 255, 255, 0.9);
+    display: inline-block;
+    margin-bottom: 20px;
+}
+
+.course-icon {
+    width: 80px;
+    height: 80px;
+    background: #3776ab;
+    border-radius: 16px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 36px;
+    box-shadow: 
+        0 8px 24px rgba(0, 0, 0, 0.2),
+        0 4px 8px rgba(55, 118, 171, 0.3);
+    position: relative;
+    overflow: hidden;
+}
+
+.course-icon::before {
+    content: '';
+    position: absolute;
+    top: -2px;
+    left: -2px;
+    right: -2px;
+    bottom: -2px;
+    background: linear-gradient(45deg, #fbbf24, #8b5cf6, #3b82f6, #fbbf24);
+    border-radius: 18px;
+    z-index: -1;
+    animation: iconBorder 3s linear infinite;
+}
+
+@keyframes iconBorder {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+}
+
+.course-title {
+    font-size: 3rem;
+    font-weight: 800;
+    margin: 0;
+    font-family: 'Press Start 2P', monospace;
+    text-shadow: 
+        0 2px 4px rgba(0, 0, 0, 0.3),
+        0 0 20px rgba(255, 255, 255, 0.2);
+    color: white;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    line-height: 1.2;
+}
+
+.course-description {
+    font-size: 1.2rem;
+    margin: 8px 0 0 0;
+    opacity: 0.9;
+    font-family: 'VT323', monospace;
+    letter-spacing: 1px;
+    color: rgba(255, 255, 255, 0.9);
+}
+
+.course-stats {
+    display: flex;
+    align-items: center;
+    gap: 20px;
+    color: white;
+    opacity: 0.9;
+    font-family: 'VT323', monospace;
+    font-size: 18px;
+    letter-spacing: 1px;
+}
+
+.course-stats span {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+/* Chapter Cards */
+.chapter {
+    background: #1a1a2e;
+    border-radius: 12px;
+    margin-bottom: 20px;
+    overflow: hidden;
+    border: 2px solid transparent;
+    transition: all 0.3s ease;
+    position: relative;
+}
+
+.chapter::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: linear-gradient(45deg, #8b5cf6, #3b82f6, #fbbf24, #8b5cf6);
+    border-radius: 12px;
+    z-index: -1;
+    opacity: 0;
+    transition: opacity 0.3s ease;
+}
+
+.chapter:hover::before {
+    opacity: 0.1;
+}
+
+.chapter:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 25px rgba(139, 92, 246, 0.2);
+}
+
+.chapter-header {
+    padding: 20px;
+    background: #2a2a3e;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    transition: all 0.3s ease;
+}
+
+.chapter-header:hover {
+    background: #2f2f45;
+}
+
+.chapter-number {
+    width: 40px;
+    height: 40px;
+    background: #8b5cf6;
+    border-radius: 8px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #000;
+    font-weight: bold;
+    font-family: 'Press Start 2P', monospace;
+    font-size: 14px;
+    box-shadow: 
+        0 4px 8px rgba(139, 92, 246, 0.3),
+        inset 0 1px 0 rgba(255, 255, 255, 0.2);
+}
+
+.chapter-info h3 {
+    margin: 0;
+    color: #fff;
+    font-size: 1.3rem;
+    font-family: 'Press Start 2P', monospace;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+}
+
+.chapter-meta {
+    margin: 4px 0 0 0;
+    color: #8b5cf6;
+    font-size: 14px;
+    font-family: 'VT323', monospace;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+}
+
+.chapter-content {
+    padding: 0 20px 20px 20px;
+    background: #1a1a2e;
+}
+
+.lesson {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 12px 0;
+    border-bottom: 1px solid #333;
+    transition: all 0.3s ease;
+}
+
+.lesson:hover {
+    background: rgba(139, 92, 246, 0.05);
+    padding-left: 10px;
+    padding-right: 10px;
+    border-radius: 8px;
+    border-bottom-color: #8b5cf6;
+}
+
+.lesson:last-child {
+    border-bottom: none;
+}
+
+.lesson-info {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+.lesson-number {
+    color: #8b5cf6;
+    font-weight: 600;
+    font-family: 'Press Start 2P', monospace;
+    font-size: 12px;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+}
+
+.lesson-title {
+    color: #ccc;
+    font-family: 'VT323', monospace;
+    font-size: 18px;
+    letter-spacing: 1px;
+}
+
+/* Sidebar Enhancements */
+.course-sidebar {
+    background: #1a1a2e;
+    border-radius: 12px;
+    padding: 30px;
+    border: 1px solid rgba(139, 92, 246, 0.2);
+}
+
+.user-profile {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin-bottom: 20px;
+    padding: 15px;
+    background: rgba(139, 92, 246, 0.1);
+    border-radius: 10px;
+    border: 1px solid rgba(139, 92, 246, 0.2);
+}
+
+.user-avatar-large {
+    width: 40px;
+    height: 40px;
+    background: #8b5cf6;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: bold;
+    color: #000;
+    font-family: 'Press Start 2P', monospace;
+    font-size: 14px;
+    box-shadow: 0 4px 8px rgba(139, 92, 246, 0.3);
+}
+
+.progress-section h4 {
+    color: #fff;
+    margin-bottom: 16px;
+    font-family: 'Press Start 2P', monospace;
+    font-size: 14px;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+}
+
+.progress-bar-container {
+    background: #333;
+    border-radius: 8px;
+    height: 8px;
+    margin-bottom: 12px;
+    overflow: hidden;
+    position: relative;
+}
+
+.progress-bar-fill {
+    background: linear-gradient(90deg, #8b5cf6 0%, #a78bfa 100%);
+    height: 100%;
+    border-radius: 8px;
+    transition: width 0.3s ease;
+    position: relative;
+}
+
+.progress-bar-fill::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: linear-gradient(90deg, transparent 0%, rgba(255, 255, 255, 0.3) 50%, transparent 100%);
+    animation: progressShine 2s ease-in-out infinite;
+}
+
+@keyframes progressShine {
+    0% { transform: translateX(-100%); }
+    100% { transform: translateX(100%); }
+}
+
+.stats-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 16px;
+    margin-top: 20px;
+}
+
+.stat-box {
+    text-align: center;
+    padding: 15px;
+    background: rgba(139, 92, 246, 0.1);
+    border-radius: 8px;
+    border: 1px solid rgba(139, 92, 246, 0.2);
+}
+
+.stat-number {
+    font-size: 2rem;
+    color: #8b5cf6;
+    font-weight: bold;
+    font-family: 'Press Start 2P', monospace;
+    margin-bottom: 5px;
+}
+
+.stat-label {
+    color: #888;
+    font-size: 14px;
+    font-family: 'VT323', monospace;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+}
+
+/* Flash Messages */
+.flash-message {
+    position: fixed;
+    top: 100px;
+    right: 20px;
+    z-index: 1000;
+    padding: 15px 20px;
+    border-radius: 8px;
+    font-family: 'VT323', monospace;
+    font-size: 16px;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    animation: slideInRight 0.5s ease-out;
+    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.3);
+    border: 2px solid;
+}
+
+.flash-message.success {
+    background: rgba(139, 92, 246, 0.9);
+    color: white;
+    border-color: #8b5cf6;
+}
+
+.flash-message.error {
+    background: rgba(239, 68, 68, 0.9);
+    color: white;
+    border-color: #ef4444;
+}
+
+@keyframes slideInRight {
+    from {
+        transform: translateX(100%);
+        opacity: 0;
+    }
+    to {
+        transform: translateX(0);
+        opacity: 1;
+    }
+}
+
+/* Game Section Enhancements */
+.game-container {
+    background: linear-gradient(135deg, #1a1a2e 0%, #2a2a3e 100%);
+    border-radius: 20px;
+    padding: 40px;
+    border: 2px solid rgba(139, 92, 246, 0.3);
+    position: relative;
+    overflow: hidden;
+}
+
+.game-container::before {
+    content: '';
+    position: absolute;
+    top: -2px;
+    left: -2px;
+    right: -2px;
+    bottom: -2px;
+    background: linear-gradient(45deg, #8b5cf6, #3b82f6, #fbbf24, #8b5cf6);
+    border-radius: 22px;
+    z-index: -1;
+    animation: gameBorder 4s linear infinite;
+}
+
+@keyframes gameBorder {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+}
+
+.game-header {
+    text-align: center;
+    margin-bottom: 30px;
+}
+
+.game-title {
+    font-size: 2.5rem;
+    font-family: 'Press Start 2P', monospace;
+    background: linear-gradient(135deg, #fbbf24 0%, #8b5cf6 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    margin-bottom: 15px;
+}
+
+.game-subtitle {
+    color: #cbd5e1;
+    font-family: 'VT323', monospace;
+    font-size: 18px;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+}
+
+/* Enhanced Mobile Responsiveness */
+@media (max-width: 768px) {
+    .course-title {
+        font-size: 2rem;
+    }
+    
+    .course-icon {
+        width: 60px;
+        height: 60px;
+        font-size: 28px;
+    }
+    
+    .chapter-header {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 15px;
+    }
+    
+    .lesson {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 10px;
+    }
+    
+    .stats-grid {
+        grid-template-columns: 1fr;
+    }
+    
+    .game-title {
+        font-size: 1.8rem;
+    }
+}
+
+@media (max-width: 480px) {
+    .course-hero {
+        padding: 40px 0;
+    }
+    
+    .course-title {
+        font-size: 1.5rem;
+    }
+    
+    .chapter {
+        margin-bottom: 15px;
+    }
+    
+    .chapter-header {
+        padding: 15px;
+    }
+    
+    .course-sidebar {
+        padding: 20px;
+    }
+} 
