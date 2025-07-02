@@ -1,0 +1,190 @@
+{
+  "logging": {
+    "level": "INFO",
+    "format": "%(asctime)s - %(name)s - %(levelname)s - %(message)s"
+  },
+  "workflows": {
+    "data_processing": {
+      "description": "Process data files and generate reports",
+      "tasks": [
+        {
+          "type": "file",
+          "name": "check_input_dir",
+          "config": {
+            "operation": "list",
+            "file_path": "./data/input"
+          }
+        },
+        {
+          "type": "loop",
+          "name": "process_files",
+          "config": {
+            "items": "${check_input_dir_result}",
+            "task": {
+              "type": "transform",
+              "config": {
+                "source_file": "${loop_item}",
+                "destination_file": "./data/output/${loop_item}.json",
+                "transform_type": "csv_to_json"
+              }
+            }
+          }
+        },
+        {
+          "type": "log",
+          "name": "log_completion",
+          "config": {
+            "message": "Processed ${process_files_result.length} files",
+            "level": "INFO"
+          }
+        }
+      ]
+    },
+    "system_monitor": {
+      "description": "Monitor system health and send alerts",
+      "tasks": [
+        {
+          "type": "shell",
+          "name": "check_disk_space",
+          "config": {
+            "command": "df -h | grep -E '^/dev/'",
+            "timeout": 30
+          }
+        },
+        {
+          "type": "shell",
+          "name": "check_memory",
+          "config": {
+            "command": "free -m",
+            "timeout": 30
+          }
+        },
+        {
+          "type": "conditional",
+          "name": "check_alert_needed",
+          "config": {
+            "condition": {
+              "type": "contains",
+              "left": "${check_disk_space_result.stdout}",
+              "right": "9[0-9]%"
+            },
+            "true_value": "ALERT: High disk usage detected",
+            "false_value": "Disk usage normal"
+          }
+        },
+        {
+          "type": "email",
+          "name": "send_alert",
+          "config": {
+            "skip_conditions": [
+              {
+                "context_key": "check_alert_needed_result",
+                "value": "Disk usage normal"
+              }
+            ],
+            "username": "${EMAIL_USER}",
+            "password": "${EMAIL_PASS}",
+            "to_emails": ["admin@example.com"],
+            "subject": "System Alert",
+            "body": "${check_alert_needed_result}\n\nDisk Usage:\n${check_disk_space_result.stdout}\n\nMemory Usage:\n${check_memory_result.stdout}"
+          }
+        }
+      ]
+    },
+    "api_integration": {
+      "description": "Fetch data from API and process it",
+      "tasks": [
+        {
+          "type": "http",
+          "name": "fetch_data",
+          "config": {
+            "url": "https://api.example.com/data",
+            "method": "GET",
+            "headers": {
+              "Authorization": "Bearer ${API_TOKEN}"
+            },
+            "timeout": 60
+          }
+        },
+        {
+          "type": "file",
+          "name": "save_response",
+          "config": {
+            "operation": "write",
+            "file_path": "./data/api_response.json",
+            "content": "${fetch_data_result.body}"
+          }
+        },
+        {
+          "type": "transform",
+          "name": "convert_to_csv",
+          "config": {
+            "source_file": "./data/api_response.json",
+            "destination_file": "./data/api_data.csv",
+            "transform_type": "json_to_csv"
+          }
+        }
+      ]
+    },
+    "backup_workflow": {
+      "description": "Backup important files to remote location",
+      "tasks": [
+        {
+          "type": "shell",
+          "name": "create_archive",
+          "config": {
+            "command": "tar -czf backup_$(date +%Y%m%d_%H%M%S).tar.gz ./important_files/",
+            "timeout": 300
+          }
+        },
+        {
+          "type": "shell",
+          "name": "upload_to_s3",
+          "config": {
+            "command": "aws s3 cp backup_*.tar.gz s3://my-backup-bucket/",
+            "timeout": 600
+          }
+        },
+        {
+          "type": "shell",
+          "name": "cleanup_local",
+          "config": {
+            "command": "rm -f backup_*.tar.gz",
+            "timeout": 30
+          }
+        },
+        {
+          "type": "log",
+          "name": "log_backup_complete",
+          "config": {
+            "message": "Backup completed successfully",
+            "level": "INFO"
+          }
+        }
+      ]
+    }
+  },
+  "schedules": [
+    {
+      "name": "daily_data_processing",
+      "workflow": "data_processing",
+      "schedule": "0 2 * * *",
+      "timezone": "UTC",
+      "enabled": true
+    },
+    {
+      "name": "hourly_system_monitor",
+      "workflow": "system_monitor",
+      "schedule": "0 * * * *",
+      "timezone": "UTC",
+      "enabled": true
+    },
+    {
+      "name": "weekly_backup",
+      "workflow": "backup_workflow",
+      "schedule": "0 3 * * 0",
+      "timezone": "UTC",
+      "enabled": true
+    }
+  ]
+}
